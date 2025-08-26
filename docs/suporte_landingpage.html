@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WASTECH - Suporte ao Cliente</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/suporte_landingpage.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/universal-sentence-encoder@1.3.3"></script>
+  <link rel="shortcut icon" href="Favicon/favicon.ico" type="image/x-icon" />
+  <style>
+    /* Estilos do Chatbot */
+    .chat-container {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 350px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      z-index: 1000;
+      flex-direction: column;
+      max-height: 500px;
+      border: 1px solid #ddd;
+    }
+   
+    .chat-header {
+      background: #2e7d32;
+      color: white;
+      padding: 15px;
+      border-radius: 10px 10px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+   
+    .chat-header h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+   
+    .close-chat {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+   
+    .chat-messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+   
+    .message {
+      max-width: 80%;
+      padding: 10px 15px;
+      border-radius: 18px;
+      line-height: 1.4;
+    }
+   
+    .bot-message {
+      background: #f1f1f1;
+      align-self: flex-start;
+      border-bottom-left-radius: 5px;
+    }
+   
+    .user-message {
+      background: #2e7d32;
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 5px;
+    }
+   
+    .chat-input {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid #eee;
+    }
+   
+    .chat-input input {
+      flex: 1;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      outline: none;
+    }
+   
+    .send-button {
+      background: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+   
+    .faq-questions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+   
+    .faq-question {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border: none;
+      border-radius: 15px;
+      padding: 5px 12px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+   
+    .faq-question:hover {
+      background: #2e7d32;
+      color: white;
+    }
+   
+    .chat-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #2e7d32;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      z-index: 999;
+    }
+   
+    .chat-toggle i {
+      font-size: 1.5rem;
+    }
+   
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      margin: 5px 0;
+    }
+   
+    .typing-indicator span {
+      height: 8px;
+      width: 8px;
+      background: #ccc;
+      border-radius: 50%;
+      display: inline-block;
+      margin: 0 2px;
+      animation: typing 1s infinite ease-in-out;
+    }
+   
+    .typing-indicator span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+   
+    .typing-indicator span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+   
+    @keyframes typing {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+
+
+
+    .quick-replies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+
+
+
+    .quick-reply {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #a5d6a7;
+      border-radius: 15px;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+
+
+
+    .quick-reply:hover {
+      background: #2e7d32;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header WASTECH -->
+  <header class="top-bar">
+    <div class="logo">
+      <img src="Imagens/logoverde.png" alt="WASTECH Logo">
+    </div>
+    <div class="contact-info">
+      <span><i class="fas fa-phone"></i> (88) 93423-4323</span>
+      <span><i class="fas fa-envelope"></i> wastech@gmail.com</span>
+      <span><i class="fas fa-map-marker-alt"></i> São Paulo, Brasil</span>
+    </div>
+     <div class="auth-buttons">
+    <a href="login.html">
+    <button class="auth-btn login-btn">Login</button>
+    </a>
+    <a href="cadastro.html">
+    <button class="auth-btn register-btn">Cadastrar</button>
+    </a>
+  </div>
+        <div class="dropdown-menu">
+          <a href="suporte_landingpage.html"><i class="fas fa-question-circle"></i> Ajuda</a>
+          <div class="divider"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+
+
+  <nav class="menu-bar">
+    <a href="index.html"><i class="fas fa-home"></i> Início</a>
+    <a href="suporte_landingpage.html"><i class="fas fa-headset"></i> Suporte</a>
+    <a href="sobrenos_landing.html"><i class="fas fa-exclamation-circle"></i> Sobre</a>
+    <input type="text" placeholder="Pesquisar..." class="search-box">
+  </nav>
+
+
+
+
+  <!-- Conteúdo de Suporte ao Cliente -->
+  <main class="container">
+    <section class="hero">
+      <h2>Como podemos ajudar você hoje?</h2>
+    </section>
+
+
+
+
+    <section id="faq" class="faq-section">
+      <br>
+      <h2>Perguntas Frequentes</h2>
+      <br>
+      <div class="faq-grid">
+        <div class="faq-category">
+          <h3><i class="fas fa-cloud-sun"></i> Dados Climáticos</h3>
+          <ul>
+            <li><a href="comunidade.html" class="faq-link" data-question="Como são coletados os dados meteorológicos?">Como são coletados os dados meteorológicos?</a></li>
+            <li><a href="comunidade.html" class="faq-link" data-question="Com que frequência os dados são atualizados?">Com que frequência os dados são atualizados?</a></li>
+            <li><a href="comunidade.html" class="faq-link" data-question="Posso confiar nas previsões para meu plantio?">Posso confiar nas previsões para meu plantio?</a></li>
+          </ul>
+        </div>
+        <div class="faq-category">
+          <h3><i class="fas fa-seedling"></i> Plantio e Colheita</h3>
+          <ul>
+            <li><a href="comunidade.html" class="faq-link" data-question="Como a plataforma sugere as melhores épocas para plantar?">Como a plataforma sugere as melhores épocas para plantar?</a></li>
+            <li><a href="comunidade.html" class="faq-link" data-question="Quais culturas são cobertas pelo sistema?">Quais culturas são cobertas pelo sistema?</a></li>
+            <li><a href="comunidade.html" class="faq-link" data-question="Como ajustar as recomendações para meu solo específico?">Como ajustar as recomendações para meu solo específico?</a></li>
+          </ul>
+        </div>
+        <div class="faq-category">
+          <h3><i class="fas fa-tint"></i> Irrigação</h3>
+          <ul>
+            <li><a href="comunidade.html" class="faq-link" data-question="Como funciona o sistema de alerta de rega?">Como funciona o sistema de alerta de rega?</a></li>
+            <li><a href="comunidade.html" class="faq-link" data-question="Posso integrar com meu sistema de irrigação existente?">Posso integrar com meu sistema de irrigação existente?</a></li>
+            <li><a href="comunidade.html" class="faq-link" data-question="Como calibrar para diferentes necessidades hídricas?">Como calibrar para diferentes necessidades hídricas?</a></li>
+          </ul>
+        </div>
+        <div class="faq-category">
+          <h3><i class="fas fa-mobile-alt"></i> Aplicativo</h3>
+          <ul>
+            <li><a href="comunidade.html" class="faq-link" data-question="Como instalar o aplicativo no meu celular?">Como instalar o aplicativo no meu celular?</a></li>
+            <li><a href="comunidade.html" class="faq-link" data-question="Recebo notificações mesmo sem internet?">Recebo notificações mesmo sem internet?</a></li>
+            <li><a href="comunidade.html" class="faq-link" data-question="Posso usar em múltiplos dispositivos?">Posso usar em múltiplos dispositivos?</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+
+
+    <section id="contato" class="contact-section">
+      <br>
+      <h2>Fale Conosco</h2>
+      <br>
+      <div class="contact-methods">
+        <div class="contact-card">
+          <i class="fas fa-phone-alt"></i>
+          <h3>Telefone</h3>
+          <p>(00) 1234-5678</p>
+          <p>Seg-Sex: 8h-18h</p>
+        </div>
+        <div class="contact-card">
+          <i class="fas fa-envelope"></i>
+          <h3>E-mail</h3>
+          <p>suporte@wastech.com</p>
+          <p>Resposta em até 24h</p>
+        </div>
+        <div class="contact-card">
+          <i class="fas fa-comment-dots"></i>
+          <h3>Chat Online</h3>
+          <p>Disponível 24/7</p>
+          <button class="chat-btn" id="mainChatBtn">Iniciar Chat</button>
+        </div>
+      </div>
+
+
+
+
+      <form class="contact-form">
+        <h3>Envie sua mensagem</h3>
+        <div class="form-group">
+          <label for="name">Nome:</label>
+          <input type="text" id="name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail:</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+          <label for="subject">Assunto:</label>
+          <select id="subject">
+            <option>Dúvida técnica</option>
+            <option>Sugestão</option>
+            <option>Problema com a conta</option>
+            <option>Feedback</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Mensagem:</label>
+          <textarea id="message" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Enviar Mensagem</button>
+      </form>
+    </section>
+
+
+
+
+    <section id="tutoriais" class="tutorials-section">
+      <br>
+      <h2>Tutoriais e Guias</h2>
+      <br>
+      <div class="tutorials-grid">
+        <div class="tutorial-card">
+          <div class="tutorial-icon">
+            <i class="fas fa-laptop-code"></i>
+          </div>
+          <h3>Configuração Inicial</h3>
+          <p>Aprenda a configurar sua conta e conectar seus dispositivos.</p>
+          <a href="comunidade.html">Assistir vídeo <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="tutorial-card">
+          <div class="tutorial-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Interpretando Dados</h3>
+          <p>Como ler e utilizar os gráficos e previsões climáticas.</p>
+          <a href="comunidade.html">Ler guia <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="tutorial-card">
+          <div class="tutorial-icon">
+            <i class="fas fa-tools"></i>
+          </div>
+          <h3>Solução de Problemas</h3>
+          <p>Problemas comuns e como resolvê-los rapidamente.</p>
+          <a href="comunidade.html">Ver solução <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+
+
+
+
+    <section id="status" class="status-section">
+      <br>
+      <h2>Status do Serviço</h2>
+      <br>
+      <div class="status-container">
+        <div class="status-indicator operational">
+          <i class="fas fa-check-circle"></i>
+          <span>Todos os sistemas operacionais</span>
+        </div>
+        <div class="status-history">
+          <h3>Histórico de Status</h3>
+          <ul>
+            <li><span class="date">05/08/2023</span> - Manutenção programada</li>
+            <li><span class="date">01/08/2023</span> - Atualização de servidores</li>
+            <li><span class="date">28/07/2023</span> - Problema com API de clima resolvido</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+
+
+  <!-- Footer WASTECH -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-left">
+        <img src="Imagens/logoverde.png" alt="WASTECH Logo" class="logo">
+      </div>
+
+
+
+
+      <nav class="footer-nav">
+        <a href="#">Comunidade</a>
+        <a href="sobrenos.html">Sobre Nós</a>
+        <a href="gamificação.html">Gamificação</a>
+        <a href="#">Página Inicial</a>
+        <a href="#">Dashboard</a>
+      </nav>
+
+
+
+
+      <div class="footer-social">
+        <a href="https://www.instagram.com/wastechpsvs/"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-bottom">
+      <p class="copyright">© 2025 WASTECH. Todos os Direitos Reservados.</p>
+      <div class="footer-links">
+        <a href="#">Políticas de Privacidade</a>
+        <a href="#">Termos de Serviço</a>
+      </div>
+      <i class="fas fa-leaf footer-icon"></i>
+    </div>
+  </footer>
+
+
+
+
+  <!-- Botão de toggle do chat -->
+  <div class="chat-toggle" id="chatToggle">
+    <i class="fas fa-comment-dots"></i>
+  </div>
+
+
+
+
+  <!-- Container do chat -->
+  <div class="chat-container" id="chatContainer">
+    <div class="chat-header">
+      <h3>Chat de Suporte</h3>
+      <button class="close-chat" id="closeChat"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="message bot-message">
+        Olá! Sou o assistente virtual da WASTECH. Como posso te ajudar hoje? Aqui estão algumas perguntas frequentes:
+      </div>
+      <div class="faq-questions">
+        <button class="faq-question" data-question="Como são coletados os dados meteorológicos?">Dados meteorológicos</button>
+        <button class="faq-question" data-question="Como a plataforma sugere as melhores épocas para plantar?">Época de plantio</button>
+        <button class="faq-question" data-question="Como funciona o sistema de alerta de rega?">Alerta de rega</button>
+        <button class="faq-question" data-question="Como alterar minha foto de perfil?">Foto de perfil</button>
+        <button class="faq-question" data-question="Como atualizar meus dados de pagamento?">Dados de pagamento</button>
+      </div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Digite sua mensagem...">
+      <button class="send-button" id="sendButton"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+
+
+
+<style>
+/* Estilos para o chat */
+.chat-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.welcome-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.welcome-option {
+    border: 1px solid #4CAF50;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.welcome-option:hover {
+    background-color: #f0fff0;
+}
+
+.welcome-option .icon {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.welcome-option .text {
+    font-size: 14px;
+}
+
+.quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px 0;
+    gap: 5px;
+}
+
+.quick-reply {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.quick-reply:hover {
+    background-color: #45a049;
+}
+
+.related-links {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+
+.related-links-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.related-link {
+    color: #4CAF50;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.search-results {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 10px 0;
+}
+
+.search-result {
+    background-color: #e9f7ef;
+    border: 1px solid #4CAF50;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.rating {
+    display: flex;
+    gap: 5px;
+    margin: 10px 0;
+    font-size: 24px;
+}
+
+.star {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.star:hover {
+    transform: scale(1.2);
+}
+
+.comment-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.comment-box textarea {
+    width: 100%;
+    min-height: 60px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.comment-box button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#submitFeedback {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#skipFeedback {
+    background-color: #f5f5f5;
+}
+
+.message-time {
+    font-size: 0.7em;
+    color: #666;
+    text-align: right;
+    margin-top: 3px;
+}
+
+.quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.quick-reply {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+.quick-reply:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.success-message {
+    background-color: #e8f5e9;
+    border: 1px solid #a5d6a7;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.success-message i {
+    color: #2e7d32;
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.success-message h3 {
+    color: #2e7d32;
+    margin: 10px 0;
+}
+
+.success-message p {
+    color: #555;
+}
+</style>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const profile = document.querySelector('.profile');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+            const dropdownIcon = document.querySelector('.dropdown-icon');
+
+            profile.addEventListener('click', function (e) {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle('show');
+                dropdownIcon.classList.toggle('rotate');
+            });
+
+            // Fechar o menu quando clicar em qualquer lugar fora
+            document.addEventListener('click', function () {
+                dropdownMenu.classList.remove('show');
+                dropdownIcon.classList.remove('rotate');
+            });
+
+            // Evitar que o menu feche quando clicar nele
+            dropdownMenu.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+        });
+    </script>
+<script src="javascripts/suporte_landing.js"></script>
+
+</body>
+</html>

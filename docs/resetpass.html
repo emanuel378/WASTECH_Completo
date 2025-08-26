@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redefinir Senha | Wastech</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/resetpass.css">
+  <link rel="shortcut icon" href="Favicon/favicon.ico" type="image/x-icon">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="content-wrapper">
+      <div class="image-container">
+        <img src="Imagens/logoverde.png" alt="Logo Wastech">
+      </div>
+      <div class="form-container">
+        <div class="login-header">
+          <h1>Esqueceu sua senha?</h1>
+          <p>Informe seu e-mail para receber um link de redefinição</p>
+        </div>
+        <div class="login-form">
+          <form id="forgotPasswordForm">
+            <div class="input-group">
+              <label for="email">E-mail</label>
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="email" placeholder="seu.email@exemplo.com" required>
+            </div>
+            <button type="submit" class="login-button">Enviar</button>
+            <div class="signup">
+              Voltar para o <a href="login.html">Login</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    &copy; 2025 WastTech - Todos os direitos reservados
+  </footer>
+
+  <script>
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCp2xHQUeMipoA44g_QyZ71dnaRHnpGJtQ",
+      authDomain: "wastech-8d384.firebaseapp.com",
+      projectId: "wastech-8d384",
+      storageBucket: "wastech-8d384.appspot.com",
+      messagingSenderId: "957838233480",
+      appId: "1:957838233480:web:576ae21101e425ed0d343d",
+      measurementId: "G-9N582ETX68"
+    };
+
+    // Inicialização do Firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const auth = firebase.auth();
+
+    // Função para mostrar feedback
+    function showMessage(message, isSuccess = false) {
+      // Remove alertas anteriores
+      const existingAlerts = document.querySelectorAll('.alert');
+      existingAlerts.forEach(alert => alert.remove());
+
+      const alertBox = document.createElement('div');
+      alertBox.className = isSuccess ? 'alert success' : 'alert error';
+      alertBox.textContent = message;
+      document.querySelector('.login-form').prepend(alertBox);
+      setTimeout(() => alertBox.remove(), 5000);
+    }
+
+    // Função principal para reset de senha - CORRIGIDA
+    // Função principal para reset de senha - CORRIGIDA
+    async function handlePasswordReset(email) {
+      try {
+        // SEMPRE tenta enviar o e-mail de recuperação, independente se o e-mail existe ou não
+        // Isso é mais seguro e segue as melhores práticas de não revelar quais e-mails estão cadastrados
+        await auth.sendPasswordResetEmail(email);
+
+        showMessage('E-mail de redefinição enviado! Verifique sua caixa de entrada.', true);
+
+        setTimeout(() => {
+          window.location.href = 'login.html?from=reset';
+        }, 3000);
+
+      } catch (error) {
+        console.error("Erro completo:", error);
+
+        const errorMessages = {
+          'auth/invalid-email': 'E-mail inválido',
+          'auth/user-not-found': 'Se o e-mail estiver cadastrado, você receberá instruções de recuperação.',
+          'auth/too-many-requests': 'Muitas tentativas. Tente mais tarde.'
+        };
+
+        // Por segurança, não revelamos se o e-mail existe ou não
+        showMessage(errorMessages[error.code] || 'Se o e-mail estiver cadastrado, você receberá instruções de recuperação.');
+      }
+    }
+
+    // Evento de submit
+    document.getElementById('forgotPasswordForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+
+      if (!email) {
+        showMessage('Por favor, insira seu e-mail');
+        return;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showMessage('Por favor, insira um e-mail válido');
+        return;
+      }
+
+      // Desabilita o botão para evitar múltiplos envios
+      const submitButton = document.querySelector('.login-button');
+      submitButton.disabled = true;
+      submitButton.textContent = 'Enviando...';
+
+      await handlePasswordReset(email);
+
+      // Reabilita o botão após o processamento
+      submitButton.disabled = false;
+      submitButton.textContent = 'Enviar';
+    });
+  </script>
+</body>
+
+</html>

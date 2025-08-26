@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WASTECH</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="shortcut icon" href="Favicon/favicon.ico" type="image/x-icon" />
+    <!-- Incluir Font Awesome no head -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Estilos específicos para o modal de plantas */
+        .plant-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .plant-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 16px;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .plant-modal.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        
+        .close-modal:hover {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .modal-content h3 {
+            color: #2E7D32;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+        }
+        
+        .modal-content h3 i {
+            color: #4CAF50;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+            background-color: white;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .required {
+            color: #e74c3c;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .btn-cancel {
+            background-color: #f5f5f5;
+            border: 2px solid #e0e0e0;
+            color: #666;
+        }
+        
+        .btn-cancel:hover {
+            background-color: #e8e8e8;
+            border-color: #d0d0d0;
+        }
+        
+        .btn-confirm {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            border: none;
+            color: white;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+        
+        .btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+        }
+        
+        /* Estilo personalizado para o range input */
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #e0e0e0;
+            outline: none;
+            margin: 15px 0;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        .progress-value-display {
+            text-align: center;
+            font-weight: 600;
+            color: #4CAF50;
+            margin-top: 5px;
+        }
+        
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .plant-modal.active .modal-content {
+            animation: slideIn 0.3s ease forwards;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 600px) {
+            .modal-content {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .modal-footer {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+
+
+    /* ESTILOS CORRIGIDOS PARA NOTIFICAÇÕES */
+    .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        border-radius: 8px;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 10000;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        max-width: 350px;
+    }
+    
+    .notification.show {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    
+    .notification.success {
+        background-color: #4CAF50;
+        border-left: 4px solid #2E7D32;
+    }
+    
+    .notification.error {
+        background-color: #f44336;
+        border-left: 4px solid #c62828;
+    }
+    
+    .notification.info {
+        background-color: #2196F3;
+        border-left: 4px solid #1565C0;
+    }
+    
+    .notification.level-up {
+        background: linear-gradient(135deg, #FF9800, #F57C00);
+        border-left: 4px solid #E65100;
+    }
+    
+    .notification i {
+        font-size: 1.2rem;
+    }
+
+    /* Garantir que não haja conflitos com outros elementos */
+    .notification-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 10000;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+        /* Indicador de nível no header */
+        .level-indicator {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white !important;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Se precisar garantir que o texto dentro também fique branco */
+        .level-indicator span {
+            color: white !important;
+        }
+
+        /* Para o texto do nível nas estatísticas */
+        .stat-item .stat-value {
+            color: white !important;
+        }
+
+        /* Específico para o item de nível */
+        .stat-item:nth-child(4) .stat-value {
+            color: white !important;
+            font-weight: 600;
+        }
+
+        /* Estilos para barra de progresso e conquistas */
+        .xp-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        
+        .xp-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .achievements-progress {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .progress-circle {
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+        
+        .circular-chart {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .circle-bg {
+            fill: none;
+            stroke: #e0e0e0;
+            stroke-width: 2;
+        }
+        
+        .circle-fill {
+            fill: none;
+            stroke: #4CAF50;
+            stroke-width: 2;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            transition: stroke-dasharray 0.5s ease;
+        }
+        
+        .percentage {
+            fill: #4CAF50;
+            font-size: 0.5em;
+            text-anchor: middle;
+            font-weight: bold;
+        }
+        
+        .progress-info {
+            flex-grow: 1;
+        }
+        
+        .progress-info h5 {
+            margin: 0 0 5px 0;
+            color: #2E7D32;
+        }
+        
+        .progress-info p {
+            margin: 0 0 10px 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .achievement {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .achievement-icon {
+            width: 40px;
+            height: 40px;
+            background: #4CAF50;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .achievement-info h6 {
+            margin: 0;
+            color: #2E7D32;
+            font-size: 0.9rem;
+        }
+        
+        .achievement-info span {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .btn-view-all {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 2px solid #4CAF50;
+            color: #4CAF50;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-view-all:hover {
+            background: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="top-bar">
+        <div class="logo">
+            <img src="Imagens/logoverde.png" alt="WASTECH Logo">
+        </div>
+        <div class="contact-info">
+            <div class="contact-info">
+                <span><i class="fas fa-phone"></i> (88) 93423-4323</span>
+                <span><i class="fas fa-envelope"></i> wastech@gmail.com</span>
+            </div>
+
+            <div class="top-icons">
+                <span><i class="fas fa-bell"></i> Notificações 
+                    <b id="headerNotifications"></b>
+                </span>
+
+                <div class="profile-container">
+                    <div class="profile">
+                        <!-- FOTO -->
+                        <img id="headerUserPhoto" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwktGunb0a4j8gZGwCIvKQiq9pf1n8bGA0QkfqzYx0jsz12RU9syffpA2SZ6svdnUovOg&usqp=CAU" alt="Usuário">
+
+                        <!-- NOME + NIVEL -->
+                        <span id="headerUserName">Usuário</span>
+                        <span class="level-indicator">
+                            <i class="fas fa-level-up-alt"></i> 
+                            Nv. <span id="headerLevelNumber">1</span>
+                        </span>
+
+                        <i class="fas fa-chevron-down dropdown-icon"></i>
+                    </div>
+
+                    <div class="dropdown-menu">
+                        <a href="gamificação.html"><i class="fas fa-user"></i> Meu Perfil</a>
+                        <a href="suporte.html"><i class="fas fa-question-circle"></i> Ajuda</a>
+                        <div class="divider"></div>
+                        <a href="login.html"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="menu-bar">
+        <a href="dashboard.html"><i class="fas fa-home"></i> Início</a>
+        <a href="ferramenta.html"><i class="fas fa-seedling"></i> Plantas</a>
+        <a href="ferramenta.html"><i class="fas fa-calendar-alt"></i> Calendário</a>
+        <a href="suporte.html"><i class="fas fa-headset"></i> Suporte</a>
+        <a href="comunidade.html"><i class="fas fa-book"></i> Guias</a>
+        <a href="sobrenos.html"><i class="fas fa-exclamation-circle"></i> Sobre</a>
+        <input type="text" placeholder="Pesquisar..." class="search-box">
+    </nav>
+
+    <!-- Content -->
+    <div class="content-wrapper">
+        <section class="welcome-banner">
+            <div class="welcome-text">
+                <h2>Bom dia, <span id="headerUserName_clone">Usuário</span>!</h2>
+                <p>Veja como está sua horta hoje</p>
+            </div>
+            <div class="quick-stats">
+                <div class="stat-item">
+                    <i class="fas fa-seedling"></i>
+                    <div>
+                        <span class="stat-value" id="active-plants-count">0</span>
+                        <span class="stat-label">Plantas ativas</span>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <div>
+                        <span class="stat-value">0</span>
+                        <span class="stat-label">Tarefas hoje</span>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-piggy-bank"></i>
+                    <div>
+                        <span class="stat-value" id="savings-amount">R$ 0</span>
+                        <span class="stat-label">Economizados</span>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-trophy"></i>
+                    <div>
+                        <span class="stat-value" id="user-level">Nv. 1</span>
+                        <span class="stat-label">Nível</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="main-grid">
+            <!-- Calendar Card -->
+            <section class="card calendar-card">
+                <div class="tools-container">
+                    <div class="tools-card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-tools"></i> Ferramentas Agrícolas</h2>
+                            <p class="card-subtitle">Tudo o que você precisa para planejar sua plantação</p>
+                        </div>
+
+                        <div class="tools-grid">
+                            <div class="tool-item">
+                                <div class="tool-icon calendar">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <h3>Calendário</h3>
+                                <p>Épocas ideais de plantio</p>
+                            </div>
+
+                            <div class="tool-item">
+                                <div class="tool-icon weather">
+                                    <i class="fas fa-cloud-sun-rain"></i>
+                                </div>
+                                <h3>Clima</h3>
+                                <p>Previsão para sua região</p>
+                            </div>
+
+                            <div class="tool-item">
+                                <div class="tool-icon calculator">
+                                    <i class="fas fa-calculator"></i>
+                                </div>
+                                <h3>Calculadora</h3>
+                                <p>Necessidades de irrigação</p>
+                            </div>
+                        </div>
+
+                        <a href="ferramenta.html">
+                            <button class="btn-access">
+                                <i class="fas fa-arrow-right"></i> Acessar Todas as Ferramentas
+                            </button>
+                        </a>
+                        
+                        <div class="tools-description">
+                            <div class="description-content">
+                                <div class="description-text">
+                                    <h3><i class="fas fa-seedling"></i> O que você encontra nas Ferramentas Agrícolas?</h3>
+                                    <ul class="features-list">
+                                        <li><i class="fas fa-check-circle"></i> <strong>Calendário de Plantio:</strong> Datas ideais para cultivo de 50+ espécies</li>
+                                        <li><i class="fas fa-check-circle"></i> <strong>Monitor Climático:</strong> Previsão do tempo com alertas para sua região</li>
+                                        <li><i class="fas fa-check-circle"></i> <strong>Veja o que plantar na sua região:</strong> Veja o que plantar de acordo com sua localidade</li>
+                                        <li><i class="fas fa-check-circle"></i> <strong>Dicas personalizadas:</strong> Dicas personalizadas de acordo com sua região</li>
+                                    </ul>
+                                    <p class="disclaimer">*Disponível para todas as regiões do Brasil</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress Card -->
+            <section class="card progress-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-chart-line"></i> Minhas plantas</h3>
+                    <div class="card-actions">
+                        <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="tabs">
+                        <button class="tab-btn active">Suas plantas</button>
+                    </div>
+
+                    <div class="plant-progress-list" id="plants-list">
+                        <!-- Plantas serão adicionadas dinamicamente aqui -->
+                        <div class="no-plants-message" id="no-plants-message">
+                            <i class="fas fa-seedling"></i>
+                            <p>Você ainda não tem plantas cadastradas</p>
+                            <p>Adicione sua primeira planta para começar a economizar!</p>
+                        </div>
+                    </div>
+
+                    <button class="btn-add" id="add-plant-btn">
+                        <i class="fas fa-plus"></i> Adicionar Planta
+                    </button>
+                </div>
+            </section>
+
+            <!-- Modal de Adição/Edição -->
+            <div class="plant-modal" id="plant-modal">
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <h3><i class="fas fa-seedling"></i> <span class="modal-title">Adicionar Nova Planta</span></h3>
+
+                    <div class="form-group">
+                        <label for="plant-name">Nome da Planta <span class="required">*</span></label>
+                        <input type="text" id="plant-name" class="form-control" placeholder="Ex: Tomate Cereja" required>
+                        <small class="error-message">Por favor, insira o nome da planta</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="plant-type">Tipo de Planta <span class="required">*</span></label>
+                        <select id="plant-type" class="form-control" required>
+                            <option value="">Selecione um tipo</option>
+                            <option value="Hortaliça">Hortaliça</option>
+                            <option value="Fruta">Fruta</option>
+                            <option value="Erva Aromática">Erva Aromática</option>
+                            <option value="Legume">Legume</option>
+                            <option value="Folhosa">Folhosa</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                        <small class="error-message">Por favor, selecione o tipo de planta</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="plant-date">Data de Plantio <span class="required">*</span></label>
+                        <input type="date" id="plant-date" class="form-control" required>
+                        <small class="error-message">Por favor, selecione a data de plantio</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="plant-progress">Progresso Atual</label>
+                        <input type="range" id="plant-progress" min="0" max="100" value="0" class="form-control">
+                        <div class="progress-value-display"><span id="progress-value">0</span>% completo</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="plant-notes">Observações</label>
+                        <textarea id="plant-notes" class="form-control" rows="3" placeholder="Registre informações importantes sobre o cultivo"></textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-cancel">Cancelar</button>
+                        <button type="button" class="btn btn-confirm" id="confirm-plant">
+                            <i class="fas fa-plus"></i> Adicionar Planta
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Savings Card -->
+            <section class="card savings-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-piggy-bank"></i> Economia Estimada</h3>
+                    <div class="card-actions">
+                        <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="savings-display">
+                        <div class="savings-amount">
+                            <span class="currency">R$</span>
+                            <span class="amount" id="total-savings">0,00</span>
+                        </div>
+                        <div class="savings-period">este mês</div>
+                    </div>
+
+                    <div class="savings-comparison">
+                        <div class="comparison-item">
+                            <div class="comparison-label">
+                                <i class="fas fa-shopping-basket"></i>
+                                <span>Supermercado</span>
+                            </div>
+                            <div class="comparison-value">R$ 0,00</div>
+                        </div>
+                        <div class="comparison-item highlight">
+                            <div class="comparison-label">
+                                <i class="fas fa-home"></i>
+                                <span>Sua Horta</span>
+                            </div>
+                            <div class="comparison-value">R$ 0,00</div>
+                        </div>
+                    </div>
+
+                    <div class="savings-chart" id="savings-chart">
+                        <div class="no-data-message">
+                            <i class="fas fa-chart-pie"></i>
+                            <p>Adicione plantas para ver seu gráfico de economia</p>
+                        </div>
+                    </div>
+
+                    <div class="savings-tip">
+                        <i class="fas fa-lightbulb"></i>
+                        <p id="savings-tip-text">Adicione plantas para começar a economizar!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Achievements Card -->
+            <section class="card achievements-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-trophy"></i> Conquistas</h3>
+                    <div class="card-actions">
+                        <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="achievements-progress">
+                        <div class="progress-circle">
+                            <svg width="80" height="80" viewBox="0 0 36 36" class="circular-chart">
+                                <path class="circle-bg" d="M18 2.0845
+                                          a 15.9155 15.9155 0 0 1 0 31.831
+                                          a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="circle-fill" stroke-dasharray="0, 100" d="M18 2.0845
+                                          a 15.9155 15.9155 0 0 1 0 31.831
+                                          a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <text x="18" y="20.5" class="percentage">0%</text>
+                            </svg>
+                        </div>
+                        <div class="progress-info">
+                            <h5>Nível 1 - Iniciante</h5>
+                            <p>100 XP para o próximo nível</p>
+                            <div class="xp-bar">
+                                <div class="xp-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="achievements-grid">
+                        <div class="achievement">
+                            <div class="achievement-icon">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <h6>Primeiros Passos</h6>
+                                <span>Plantou sua primeira muda</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <div class="achievement-icon">
+                                <i class="fas fa-water"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <h6>Regador Dedicado</h6>
+                                <span>Regou por 7 dias seguidos</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <div class="achievement-icon">
+                                <i class="fas fa-carrot"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <h6>Colheita Farta</h6>
+                                <span>Colheu 5 vegetais diferentes</span>
+                            </div>
+                        </div>
+                        <div class="achievement">
+                            <div class="achievement-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <h6>3 Meses</h6>
+                                <span>Manteve sua horta por 3 meses</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="gamificação.html">
+                        <button class="btn-view-all">
+                        Ver todas as conquistas <i class="fas fa-chevron-right"></i>
+                    </button>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Community Card -->
+            <section class="card photos-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-users"></i> Comunidade WASTECH</h3>
+                    <div class="card-actions">
+                        <button class="btn-icon" id="community-settings"><i class="fas fa-cog"></i></button>
+                    </div>
+                </div>
+                
+                <div class="card-content">
+                    <div class="community-highlights">
+                        <!-- Destaque 1: Dúvidas Frequentes -->
+                        <div class="highlight-card">
+                            <div class="highlight-icon" style="background-color: #4CAF50;">
+                                <i class="fas fa-question-circle"></i>
+                            </div>
+                            <div class="highlight-content">
+                                <h4>Dúvidas Frequentes</h4>
+                                <p>Encontre respuestas para perguntas comuns sobre cultivo</p>
+                                <span class="highlight-stats">+120 dúvidas respondidas</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Destaque 2: Tutoriais -->
+                        <div class="highlight-card">
+                            <div class="highlight-icon" style="background-color: #2196F3;">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="highlight-content">
+                                <h4>Guia de Cultivo</h4>
+                                <p>Tutoriais passo a passo para iniciantes</p>
+                                <span class="highlight-stats">15 materiais disponíveis</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Seção de Interação -->
+                    <div class="community-interaction">
+                        <div class="interaction-header">
+                            <h4><i class="fas fa-comments"></i> Últimas Discussões</h4>
+                            <button class="btn-text" id="view-community">Ver todas</button>
+                        </div>
+                        
+                        <div class="discussion-list">
+                            <div class="discussion-item">
+                                <div class="discussion-content">
+                                    <h5>Como combater pulgões naturalmente?</h5>
+                                    <p class="discussion-meta">Por: Ana Silva • 3 dias atrás</p>
+                                </div>
+                                <span class="discussion-comments">8 respostas</span>
+                            </div>
+                            
+                            <div class="discussion-item">
+                                <div class="discussion-content">
+                                    <h5>Melhor adubo para hortaliças</h5>
+                                    <p class="discussion-meta">Por: Carlos Oliveira • 1 semana atrás</p>
+                                </div>
+                                <span class="discussion-comments">12 respostas</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Botão Principal -->
+                    <a href="comunidade.html">
+                        <button class="btn-community" id="access-community">
+                        <i class="fas fa-door-open"></i> Acessar Comunidade Completa
+                    </button>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Tips Card -->
+            <section class="card tips-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-lightbulb"></i> Dica do Dia</h3>
+                    <div class="card-actions">
+                        <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="tip-content">
+                        <img src="https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                            alt="Dica" class="tip-image">
+                        <h4>Como melhorar o crescimento do tomate</h4>
+                        <p>Os tomateiros precisam de pelo menos 6-8 horas de sol direto por day. Remova os brotos
+                            laterais para concentrar a energia da planta nos frutos principais.</p>
+                        <a href="comunidade.html">
+                            <button class="btn-read-more">
+                            Ler mais <i class="fas fa-chevron-right"></i>
+                        </button>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-left">
+                <img src="Imagens/logoverde.png" alt="Wastech Logo" class="logo" />
+            </div>
+
+            <nav class="footer-nav">
+                <a href="#">Comunidade</a>
+                <a href="#">Sobre Nós</a>
+                <a href="#">Gamificação</a>
+                <a href="#">Página Inicial</a>
+                <a href="#">Dashboard</a>
+            </nav>
+
+            <div class="footer-social">
+                <a href="https://www.instagram.com/wastechpsvs/"><img src="Favicon/insta-icon.svg" alt="Instagram" /></a>
+                <a href="#"><img src="Favicon/yt-icon.svg" alt="YouTube" /></a>
+            </div>
+        </div>
+        <hr class="footer-divider" />
+        <div class="footer-bottom">
+            <p class="copyright">© 2025 WastTech. Todos os Direitos Reservados.</p>
+            <div class="footer-links">
+                <a href="#">Políticas de Privacidade</a>
+                <a href="#">Termos de Serviço</a>
+            </div>
+            <img src="Favicon/plant-icon.svg" alt="Ícone Planta" class="footer-icon" />
+        </div>
+    </footer>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+    // =================== CONFIG FIREBASE ===================
+    const firebaseConfig = {
+        apiKey: "AIzaSyCp2xHQUeMipoA44g_QyZ71dnaRHnpGJtQ",
+        authDomain: "wastech-8d384.firebaseapp.com",
+        projectId: "wastech-8d384",
+        storageBucket: "wastech-8d384.appspot.com",
+        messagingSenderId: "957838233480",
+        appId: "1:957838233480:web:576ae21101e425ed0d343d",
+        measurementId: "G-9N582ETX68"
+    };
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // =================== SISTEMA DE NÍVEIS ===================
+    const LEVELS = [
+        { level: 1, xpRequired: 0, title: "Iniciante" },
+        { level: 2, xpRequired: 100, title: "Aprendiz Verde" },
+        { level: 3, xpRequired: 300, title: "Jardinheiro" },
+        { level: 4, xpRequired: 600, title: "Cultivador" },
+        { level: 5, xpRequired: 1000, title: "Agricultor" },
+        { level: 6, xpRequired: 1500, title: "Mestre Verde" },
+        { level: 7, xpRequired: 2100, title: "Especialista" },
+        { level: 8, xpRequired: 2800, title: "Mestre Jardineiro" },
+        { level: 9, xpRequired: 3600, title: "Lenda Verde" },
+        { level: 10, xpRequired: 4500, title: "Mestre Supremo" }
+    ];
+
+    // =================== VARIÁVEIS GLOBAIS ===================
+    let plants = [];
+    let totalSavings = 0;
+    let userXP = 0;
+    let userLevel = 1;
+    const SAVINGS_PER_PLANT = 25;
+    let isSavingPlant = false;
+    let editingPlantId = null;
+
+    // =================== FUNÇÕES DE NÍVEL & XP ===================
+    function calculateLevel(xp) {
+        for (let i = LEVELS.length - 1; i >= 0; i--) {
+            if (xp >= LEVELS[i].xpRequired) return LEVELS[i].level;
+        }
+        return 1;
+    }
+
+    function checkLevelUp(oldLevel) {
+        const newLevel = calculateLevel(userXP);
+        if (newLevel > oldLevel) {
+            userLevel = newLevel;
+            showLevelUpNotification(newLevel);
+            updateLevelDisplay();
+        }
+    }
+
+    async function addXP(amount, reason) {
+        const oldLevel = userLevel;
+        userXP += amount;
+        checkLevelUp(oldLevel);
+
+        const user = auth.currentUser;
+        if (user) {
+            await db.collection("usuarios").doc(user.uid).update({
+                xp: userXP,
+                nivel: userLevel
+            });
+        }
+
+        document.getElementById("user-level").textContent = `Nv. ${userLevel}`;
+        document.getElementById("headerLevelNumber").textContent = userLevel;
+        console.log(`+${amount} XP (${reason})`);
+    }
+
+    function updateLevelDisplay() {
+        const currentLevel = LEVELS[userLevel - 1];
+        const nextLevel = LEVELS[userLevel] || LEVELS[LEVELS.length - 1];
+        
+        const xpForNextLevel = nextLevel.xpRequired - currentLevel.xpRequired;
+        const xpProgress = userXP - currentLevel.xpRequired;
+        const progressPercentage = Math.min(100, (xpProgress / xpForNextLevel) * 100);
+        
+        const xpFill = document.querySelector('.xp-fill');
+        if (xpFill) {
+            xpFill.style.width = `${progressPercentage}%`;
+        }
+        
+        const progressInfo = document.querySelector('.progress-info p');
+        if (progressInfo) {
+            const xpNeeded = nextLevel.xpRequired - userXP;
+            progressInfo.textContent = `${xpNeeded} XP para o próximo nível`;
+        }
+        
+        const levelTitle = document.querySelector('.progress-info h5');
+        if (levelTitle) {
+            levelTitle.textContent = `Nível ${userLevel} - ${currentLevel.title}`;
+        }
+        
+        const circleFill = document.querySelector('.circle-fill');
+        if (circleFill) {
+            circleFill.setAttribute('stroke-dasharray', `${progressPercentage}, 100`);
+        }
+        
+        const percentageText = document.querySelector('.percentage');
+        if (percentageText) {
+            percentageText.textContent = `${Math.round(progressPercentage)}%`;
+        }
+    }
+
+    // =================== FUNÇÕES DE ECONOMIA ===================
+    function updateEconomyDisplay() {
+        // Atualizar o valor total de economia
+        document.getElementById("total-savings").textContent = totalSavings.toFixed(2);
+        document.getElementById("savings-amount").textContent = "R$ " + totalSavings.toFixed(2);
+        
+        // Atualizar valores de comparação
+        const supermarketValue = totalSavings * 1.5; // Supermercado é 50% mais caro
+        document.querySelectorAll('.comparison-value')[0].textContent = `R$ ${supermarketValue.toFixed(2)}`;
+        document.querySelectorAll('.comparison-value')[1].textContent = `R$ ${totalSavings.toFixed(2)}`;
+        
+        // Atualizar gráfico
+        updateSavingsChart();
+        
+        // Atualizar dica de economia
+        updateSavingsTip();
+    }
+
+    function updateSavingsChart() {
+        const savingsChart = document.getElementById("savings-chart");
+        
+        if (plants.length === 0) {
+            savingsChart.innerHTML = `
+                <div class="no-data-message">
+                    <i class="fas fa-chart-pie"></i>
+                    <p>Adicione plantas para ver seu gráfico de economia</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Calcular valores para o gráfico
+        const supermarketValue = totalSavings * 1.5;
+        const totalValue = supermarketValue + totalSavings;
+        const supermarketPercentage = (supermarketValue / totalValue) * 100;
+        const savingsPercentage = (totalSavings / totalValue) * 100;
+        
+        savingsChart.innerHTML = `
+            <div class="chart-container">
+                <div class="chart">
+                    <div class="chart-slice supermarket" style="--percentage: ${supermarketPercentage}%">
+                        <span class="chart-label">Supermercado</span>
+                    </div>
+                    <div class="chart-slice savings" style="--percentage: ${savingsPercentage}%">
+                        <span class="chart-label">Sua Horta</span>
+                    </div>
+                </div>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <span class="legend-color supermarket"></span>
+                        <span>Supermercado: R$ ${supermarketValue.toFixed(2)}</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color savings"></span>
+                        <span>Sua Horta: R$ ${totalSavings.toFixed(2)}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function updateSavingsTip() {
+        const tipElement = document.getElementById("savings-tip-text");
+        
+        if (plants.length === 0) {
+            tipElement.textContent = "Adicione plantas para começar a economizar!";
+            return;
+        }
+        
+        const tips = [
+            "Cada planta economiza R$ 25,00 por mês no supermercado!",
+            "Sua horta já economizou R$ " + totalSavings.toFixed(2) + " este mês!",
+            "Continue cultivando! Cada planta nova aumenta sua economia.",
+            "Em breve você colherá os frutos do seu trabalho literalmente!",
+            "Sua horta é " + (totalSavings > 0 ? Math.round((totalSavings * 1.5 / totalSavings) * 100) : "0") + "% mais econômica que o supermercado!"
+        ];
+        
+        // Escolher uma dica aleatória
+        const randomTip = tips[Math.floor(Math.random() * tips.length)];
+        tipElement.textContent = randomTip;
+    }
+
+    // =================== FUNÇÕES DE PLANTAS ===================
+    async function savePlant(name, type, date, progress, notes) {
+        if (isSavingPlant) return;
+        isSavingPlant = true;
+        
+        try {
+            const formattedDate = new Date(date).toLocaleDateString("pt-BR");
+            const user = auth.currentUser;
+            if (!user) {
+                isSavingPlant = false;
+                return;
+            }
+
+            if (editingPlantId) {
+                // Modo edição - atualizar planta existente
+                const plantIndex = plants.findIndex(p => p.id === editingPlantId);
+                if (plantIndex !== -1) {
+                    const updatedPlant = {
+                        ...plants[plantIndex],
+                        name,
+                        type,
+                        plantingDate: date,
+                        formattedDate,
+                        progress,
+                        notes
+                    };
+
+                    const userRef = db.collection("usuarios").doc(user.uid);
+                    await userRef.update({
+                        plants: firebase.firestore.FieldValue.arrayRemove(plants[plantIndex])
+                    });
+                    
+                    await userRef.update({
+                        plants: firebase.firestore.FieldValue.arrayUnion(updatedPlant)
+                    });
+
+                    plants[plantIndex] = updatedPlant;
+                    showNotification("🌱 Planta atualizada com sucesso!", "success");
+                }
+            } else {
+                // Modo adição - nova planta
+                const newPlant = {
+                    id: Date.now().toString(),
+                    name,
+                    type,
+                    plantingDate: date,
+                    formattedDate,
+                    progress,
+                    notes
+                };
+
+                const userRef = db.collection("usuarios").doc(user.uid);
+                await userRef.update({
+                    plants: firebase.firestore.FieldValue.arrayUnion(newPlant),
+                    totalSavings: firebase.firestore.FieldValue.increment(SAVINGS_PER_PLANT)
+                });
+
+                plants.push(newPlant);
+                totalSavings += SAVINGS_PER_PLANT;
+                await addXP(30, "Plantou uma nova planta");
+                showNotification("🌱 Planta adicionada com sucesso!", "success");
+            }
+
+            renderPlants();
+            updateEconomyDisplay();
+            
+        } catch (e) {
+            console.error("Erro ao salvar planta:", e);
+            showNotification("Operação realizada! Atualize a página para visualizar as mudanças.", "info");
+        } finally {
+            isSavingPlant = false;
+            editingPlantId = null;
+        }
+    }
+
+    async function removePlant(id) {
+        if (isSavingPlant) return;
+        isSavingPlant = true;
+        
+        try {
+            const user = auth.currentUser;
+            if (!user) {
+                isSavingPlant = false;
+                return;
+            }
+
+            const plantToRemove = plants.find(p => p.id === id);
+            if (!plantToRemove) {
+                isSavingPlant = false;
+                return;
+            }
+
+            const userRef = db.collection("usuarios").doc(user.uid);
+            await userRef.update({
+                plants: firebase.firestore.FieldValue.arrayRemove(plantToRemove),
+                totalSavings: firebase.firestore.FieldValue.increment(-SAVINGS_PER_PLANT)
+            });
+
+            plants = plants.filter(p => p.id !== id);
+            totalSavings -= SAVINGS_PER_PLANT;
+            showNotification("❌ Planta removida!", "info");
+            renderPlants();
+            updateEconomyDisplay();
+            
+        } catch (e) {
+            console.error("Erro ao remover planta:", e);
+            showNotification("Planta removida! Atualize a página se não visualizar as mudanças.", "info");
+        } finally {
+            isSavingPlant = false;
+        }
+    }
+
+    function editPlant(id) {
+        const plant = plants.find(p => p.id === id);
+        if (!plant) return;
+
+        editingPlantId = id;
+        
+        // Preencher o modal com os dados da planta
+        document.getElementById("plant-name").value = plant.name;
+        document.getElementById("plant-type").value = plant.type;
+        document.getElementById("plant-date").value = plant.plantingDate;
+        document.getElementById("plant-progress").value = plant.progress;
+        document.getElementById("progress-value").textContent = plant.progress;
+        document.getElementById("plant-notes").value = plant.notes || "";
+        
+        // Atualizar texto do modal para edição
+        document.querySelector(".modal-title").textContent = "Editar Planta";
+        document.getElementById("confirm-plant").innerHTML = '<i class="fas fa-save"></i> Salvar Alterações';
+        
+        // Abrir modal
+        modal.classList.add("active");
+    }
+
+    async function loadPlants() {
+        try {
+            const user = auth.currentUser;
+            if (!user) return;
+
+            const userDoc = await db.collection("usuarios").doc(user.uid).get();
+            if (userDoc.exists) {
+                const data = userDoc.data();
+                plants = data.plants || [];
+                totalSavings = data.totalSavings || 0;
+                userXP = data.xp || 0;
+                userLevel = data.nivel || 1;
+
+                renderPlants();
+                updateLevelDisplay();
+                updateEconomyDisplay();
+            }
+        } catch (e) {
+            console.error("Erro ao carregar plantas:", e);
+        }
+    }
+
+    function renderPlants() {
+        const list = document.getElementById("plants-list");
+        const noMsg = document.getElementById("no-plants-message");
+
+        list.innerHTML = "";
+        if (plants.length === 0) {
+            noMsg.style.display = "block";
+            return;
+        }
+
+        noMsg.style.display = "none";
+        
+        const sortedPlants = [...plants].sort((a, b) => {
+            return new Date(b.plantingDate) - new Date(a.plantingDate);
+        });
+        
+        sortedPlants.forEach((plant) => {
+            const plantCard = document.createElement("div");
+            plantCard.classList.add("plant-card");
+            plantCard.innerHTML = `
+                <div class="plant-card-header">
+                    <h4>${plant.name}</h4>
+                    <span class="plant-type-badge">${plant.type}</span>
+                </div>
+                <div class="plant-card-body">
+                    <p><i class="fas fa-calendar"></i> Plantado em: ${plant.formattedDate}</p>
+                    <div class="progress-container">
+                        <span>Progresso: ${plant.progress}%</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${plant.progress}%"></div>
+                        </div>
+                    </div>
+                    ${plant.notes ? `<p class="plant-notes"><i class="fas fa-sticky-note"></i> ${plant.notes}</p>` : ''}
+                </div>
+                <div class="plant-card-actions">
+                    <button class="btn-edit" onclick="editPlant('${plant.id}')">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                    <button class="btn-remove" onclick="removePlant('${plant.id}')">
+                        <i class="fas fa-trash"></i> Remover
+                    </button>
+                </div>
+            `;
+            list.appendChild(plantCard);
+        });
+
+        document.getElementById("active-plants-count").textContent = plants.length;
+        document.getElementById("savings-amount").textContent = "R$ " + totalSavings.toFixed(2);
+        document.getElementById("total-savings").textContent = totalSavings.toFixed(2);
+        document.getElementById("user-level").textContent = `Nv. ${userLevel}`;
+        document.getElementById("headerLevelNumber").textContent = userLevel;
+    }
+
+    // =================== MODAL ===================
+    const modal = document.getElementById("plant-modal");
+    const openBtn = document.getElementById("add-plant-btn");
+    const closeBtn = document.querySelector(".close-modal");
+    const cancelBtn = document.querySelector(".btn-cancel");
+    const confirmBtn = document.getElementById("confirm-plant");
+
+    function resetModal() {
+        editingPlantId = null;
+        document.getElementById("plant-name").value = "";
+        document.getElementById("plant-type").value = "";
+        document.getElementById("plant-date").value = new Date().toISOString().split('T')[0];
+        document.getElementById("plant-progress").value = 0;
+        document.getElementById("progress-value").textContent = "0";
+        document.getElementById("plant-notes").value = "";
+        document.querySelector(".modal-title").textContent = "Adicionar Nova Planta";
+        document.getElementById("confirm-plant").innerHTML = '<i class="fas fa-plus"></i> Adicionar Planta';
+    }
+
+    openBtn.addEventListener("click", () => {
+        resetModal();
+        modal.classList.add("active");
+    });
+    
+    closeBtn.addEventListener("click", () => {
+        modal.classList.remove("active");
+        resetModal();
+    });
+    
+    cancelBtn.addEventListener("click", () => {
+        modal.classList.remove("active");
+        resetModal();
+    });
+
+    confirmBtn.addEventListener("click", () => {
+        const name = document.getElementById("plant-name").value.trim();
+        const type = document.getElementById("plant-type").value;
+        const date = document.getElementById("plant-date").value;
+        const progress = parseInt(document.getElementById("plant-progress").value);
+        const notes = document.getElementById("plant-notes").value;
+
+        if (!name || !type || !date) {
+            showNotification("Preencha todos os campos obrigatórios!", "error");
+            return;
+        }
+
+        savePlant(name, type, date, progress, notes);
+        modal.classList.remove("active");
+        resetModal();
+    });
+
+    document.getElementById("plant-progress").addEventListener("input", (e) => {
+        document.getElementById("progress-value").textContent = e.target.value;
+    });
+
+    // =================== SISTEMA DE NOTIFICAÇÕES ===================
+    function showNotification(msg, type = "info") {
+        let container = document.querySelector('.notification-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.className = 'notification-container';
+            document.body.appendChild(container);
+        }
+        
+        const notification = document.createElement("div");
+        notification.className = `notification ${type}`;
+        
+        let iconClass = "fas fa-info-circle";
+        if (type === "success") iconClass = "fas fa-check-circle";
+        if (type === "error") iconClass = "fas fa-exclamation-circle";
+        if (type === "level-up") iconClass = "fas fa-trophy";
+        
+        notification.innerHTML = `<i class="${iconClass}"></i> <span>${msg}</span>`;
+        
+        container.appendChild(notification);
+        
+        void notification.offsetWidth;
+        
+        setTimeout(() => {
+            notification.classList.add("show");
+        }, 10);
+        
+        setTimeout(() => {
+            notification.classList.remove("show");
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+                
+                if (container.children.length === 0) {
+                    container.parentNode.removeChild(container);
+                }
+            }, 300);
+        }, 5000);
+        
+        return notification;
+    }
+
+    function showLevelUpNotification(level) {
+        const levelData = LEVELS.find(l => l.level === level);
+        showNotification(`🎉 Level Up! Agora você é Nível ${level} - ${levelData.title}`, "level-up");
+    }
+    
+    // =================== LOGIN ===================
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            loadPlants();
+            // Buscar nome do Firestore se existir, senão usar displayName
+            db.collection("usuarios").doc(user.uid).get().then((userDoc) => {
+                let nome = user.displayName || "Usuário";
+                if (userDoc.exists && userDoc.data().nome) {
+                    nome = userDoc.data().nome;
+                }
+                document.getElementById("headerUserName").textContent = nome;
+                document.getElementById("headerUserName_clone").textContent = nome;
+                sessionStorage.setItem('wastech_userName', nome);
+                if (user.photoURL) {
+                    document.getElementById("headerUserPhoto").src = user.photoURL;
+                    sessionStorage.setItem('wastech_profilePhoto', user.photoURL);
+                }
+                // Salvar dados no sessionStorage para gamificação.html
+                sessionStorage.setItem('userXP', userXP);
+                sessionStorage.setItem('userLevel', userLevel);
+                sessionStorage.setItem('userPlants', JSON.stringify(plants));
+                sessionStorage.setItem('totalSavings', totalSavings);
+                // Simular água economizada e missões completas
+                sessionStorage.setItem('waterSaved', (plants ? plants.length * 10 : 0));
+                sessionStorage.setItem('completedMissions', Math.floor((userXP / 50)));
+            });
+        } else {
+            plants = [];
+            totalSavings = 0;
+            renderPlants();
+            updateEconomyDisplay();
+            sessionStorage.clear();
+        }
+    });
+
+    // =================== DROPDOWN DO PERFIL ===================
+    document.addEventListener('DOMContentLoaded', function() {
+        const profileContainer = document.querySelector('.profile-container');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+        
+        if (profileContainer) {
+            profileContainer.addEventListener('click', function(e) {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle('show');
+            });
+        }
+        
+        document.addEventListener('click', function(e) {
+            if (dropdownMenu.classList.contains('show') && 
+                !e.target.closest('.profile-container')) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+        
+        if (dropdownMenu) {
+            dropdownMenu.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+    });
+
+    // Adicionar função para atualizar foto de perfil no Firebase Storage, Firestore e Auth
+async function updateProfilePhoto(file, userId) {
+  if (!file || !userId) return '';
+  const storageRef = firebase.storage().ref('profile_photos/' + userId + '.jpg');
+  await storageRef.put(file);
+  return await storageRef.getDownloadURL();
+}
+
+// Exemplo de uso no evento de salvar perfil (em tela de perfil):
+// if (selectedFile) {
+//   const userId = firebase.auth().currentUser.uid;
+//   updateProfilePhoto(selectedFile, userId).then(photoURL => {
+//     // Atualiza no Firestore
+//     db.collection('usuarios').doc(userId).update({ photoURL });
+//     // Atualiza no Auth
+//     firebase.auth().currentUser.updateProfile({ photoURL });
+//     // Atualiza na interface/localStorage
+//     sessionStorage.setItem('wastech_profilePhoto', photoURL);
+//     // ...atualiza elementos da interface...
+//   });
+// }
+</script>
+
+<style>
+    /* Estilos para o gráfico de economia */
+    .chart-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        margin-top: 20px;
+    }
+    
+    .chart {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: conic-gradient(
+            #4CAF50 0% var(--percentage),
+            #ff6b6b var(--percentage) 100%
+        );
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .chart-inner {
+        width: 100px;
+        height: 100px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #2E7D32;
+    }
+    
+    .chart-legend {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+    }
+    
+    .legend-color {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+    }
+    
+    .legend-color.supermarket {
+        background: #ff6b6b;
+    }
+    
+    .legend-color.savings {
+        background: #4CAF50;
+    }
+    
+    .savings-comparison {
+        margin: 20px 0;
+    }
+    
+    .comparison-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px;
+        margin: 8px 0;
+        background: #f9f9f9;
+        border-radius: 8px;
+    }
+    
+    .comparison-item.highlight {
+        background: #e8f5e8;
+        border-left: 4px solid #4CAF50;
+    }
+    
+    .comparison-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 500;
+    }
+    
+    .comparison-value {
+        font-weight: 600;
+        color: #2E7D32;
+    }
+    
+    .savings-tip {
+        background: #e3f2fd;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-left: 4px solid #2196F3;
+    }
+    
+    .savings-tip i {
+        color: #2196F3;
+        font-size: 1.2rem;
+    }
+    
+    .savings-display {
+        text-align: center;
+        margin: 20px 0;
+    }
+    
+    .savings-amount {
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        gap: 5px;
+        margin-bottom: 5px;
+    }
+    
+    .currency {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #2E7D32;
+    }
+    
+    .amount {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2E7D32;
+    }
+    
+    .savings-period {
+        color: #666;
+        font-size: 0.9rem;
+    }
+</style>
+
+
+</body>
+</html>

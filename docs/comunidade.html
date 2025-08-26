@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunidade | WastTech</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/comunidade.css">
+    <link rel="shortcut icon" href="Favicon/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- Inicio Header -->
+    <header class="top-bar">
+        <div class="logo">
+            <img src="Imagens/logoverde.png" alt="WASTECH Logo">
+        </div>
+        <div class="contact-info">
+            <span><i class="fas fa-phone"></i> (88) 93423-4323</span>
+            <span><i class="fas fa-envelope"></i> wastech@gmail.com</span>
+            <span><i class="fas fa-map-marker-alt"></i> São Paulo, Brasil</span>
+        </div>
+        <div class="top-icons">
+            <div class="profile-container">
+                <div class="profile">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwktGunb0a4j8gZGwCIvKQiq9pf1n8bGA0QkfqzYx0jsz12RU9syffpA2SZ6svdnUovOg&usqp=CAU" alt="Usuário">
+                    <span>Leonardo <i class="fas fa-chevron-down dropdown-icon"></i></span>
+                </div>
+                <div class="dropdown-menu">
+                    <a href="gamificação.html"><i class="fas fa-user"></i> Meu Perfil</a>
+                    <a href="suporte.html"><i class="fas fa-question-circle"></i> Ajuda</a>
+                    <div class="divider"></div>
+                    <a href="login.html"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="menu-bar">
+        <a href="dashboard.html"><i class="fas fa-home"></i> Início</a>
+        <a href="ferramenta.html"><i class="fas fa-seedling"></i> Plantas</a>
+        <a href="ferramenta.html"><i class="fas fa-calendar-alt"></i> Calendário</a>
+        <a href="suporte.html"><i class="fas fa-headset"></i> Suporte</a>
+        <a href="comunidade.html"><i class="fas fa-book"></i> Guias</a>
+        <a href="sobrenos.html"><i class="fas fa-exclamation-circle"></i> Sobre</a>
+        <input type="text" placeholder="Pesquisar..." class="search-box">
+    </nav>
+    <!--Fim Header-->
+
+    <!-- Conteudo Principal -->
+    <div class="content">
+        <div class="forum-section">
+            <div class="section-header">
+                <div class="forum-introduction">
+                    <h2 class="section-title">
+                        <i class="fas fa-comments"></i>
+                        <span>Fórum da Comunidade</span>
+                    </h2>
+                    <p class="forum-intro">
+                        Participe de discussões envolventes e ricas em conhecimento, tire todas as suas dúvidas com tranquilidade e compartilhe experiências valiosas sobre hortas, plantas e sustentabilidade. Conecte-se com uma comunidade apaixonada por esse universo, aprenda mais sobre cultivo urbano de maneira prática, inspiradora e acessível, descubra novas técnicas e ideias criativas para transformar seu espaço em um ambiente mais verde e harmonioso, e sinta-se motivado a contribuir para um futuro mais sustentável ao lado de outros entusiastas!
+                    </p>
+                </div>
+            </div>
+            <div class="faq-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Perguntas Frequentes</span>
+                    </h2>
+                </div>
+                <input type="text" id="faq-search" placeholder="Buscar perguntas..." class="form-control">
+                <div id="faq-content"></div>
+            </div>
+
+            <!-- Modal para FAQs completas -->
+            <div id="faq-modal" class="screen">
+                <div class="screen-content">
+                    <div class="screen-header">
+                        <h2 class="screen-title" id="faq-modal-title">Perguntas Frequentes</h2>
+                        <button class="screen-close">&times;</button>
+                    </div>
+                    <div class="screen-body" id="faq-modal-content">
+                        <!-- Conteúdo do modal será preenchido dinamicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção de Ranking -->
+            <div class="ranking-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-trophy"></i>
+                        <span>Ranking: Top Hortas da Comunidade</span>
+                    </h2>
+                    <p class="ranking-intro">
+                        Conheça as hortas comunitárias mais bem avaliadas e ativas da nossa comunidade! O ranking destaca iniciativas que promovem agricultura urbana, sustentabilidade e integração social. Inspire-se com os projetos de destaque, veja suas localizações, número de participantes e avaliações, e descubra como participar ou visitar cada horta.
+                    </p>
+                </div>
+
+                <ul class="ranking-list">
+                    <li class="ranking-item garden-detail-btn_01" data-id="1">
+                        <span class="ranking-position">1</span>
+                        <img src="https://s2-casaejardim.glbimg.com/q2u7fTAcyVJ9VzsVmXWD0VsNhiM=/0x0:1400x933/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2025/I/W/QGner4Rr649bm9QCElQA/augusta-b.jpg" alt="Horta 1" class="ranking-avatar">
+                        <div class="ranking-info">
+                            <div class="ranking-name">Horta Comunitária Augusta B</div>
+                            <div class="ranking-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Curitiba (PR)
+                            </div>
+                        </div>
+                        <div class="ranking-stats">
+                            <div class="ranking-stat">
+                                <i class="fas fa-users"></i>
+                                53 produtores
+                            </div>
+                            <div class="ranking-stat">
+                                <i class="fas fa-star"></i>
+                                4.8
+                            </div>
+                        </div>
+                        <span class="ranking-points">980 pts</span>
+                    </li>
+                    <li class="ranking-item garden-detail-btn_02" data-id="2">
+                        <span class="ranking-position">2</span>
+                        <img src="https://s2-casaejardim.glbimg.com/ugL-0qPGoDlQXqv3V_pO-udgCHM=/0x0:1400x945/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2025/f/U/zTgWehQGqkpLGBlx3RsA/sete-lagoas.jpg" alt="Horta 2" class="ranking-avatar">
+                        <div class="ranking-info">
+                            <div class="ranking-name">Hortas Comunitárias de Sete Lagoas</div>
+                            <div class="ranking-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Sete Lagoas (MG)
+                            </div>
+                        </div>
+                        <div class="ranking-stats">
+                            <div class="ranking-stat">
+                                <i class="fas fa-users"></i>
+                                Aproximadamente 320 Familias
+                            </div>
+                            <div class="ranking-stat">
+                                <i class="fas fa-star"></i>
+                                4.9
+                            </div>
+                        </div>
+                        <span class="ranking-points">950 pts</span>
+                    </li>
+                    <li class="ranking-item garden-detail-btn_03" data-id="3">
+                        <span class="ranking-position">3</span>
+                        <img src="https://s2-casaejardim.glbimg.com/wIh7UdyIFINF7GNiZqW0LalF8vc=/0x0:1400x788/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2025/V/Y/xk6AhUQeCcKVYeLC7Vkg/horta-do-dirceu.png" alt="Horta 2" class="ranking-avatar">
+                        <div class="ranking-info">
+                            <div class="ranking-name">Hortas Comunitárias do Dirceu</div>
+                            <div class="ranking-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Teresina (PI)
+                            </div>
+                        </div>
+                        <div class="ranking-stats">
+                            <div class="ranking-stat">
+                                <i class="fas fa-users"></i>
+                                418 Familias
+                            </div>
+                            <div class="ranking-stat">
+                                <i class="fas fa-star"></i>
+                                4.7
+                            </div>
+                        </div>
+                        <span class="ranking-points">900 pts</span>
+                    </li>
+                    <br>
+                    <button class="btn-primary" id="ranking-btn">
+                        Ver todo o ranking
+                    </button>
+                </ul>
+            </div>
+
+            <!-- Seção de Videos e Dicas -->
+            <div class="video-section">
+                <div class="video-section-header">
+                    <h2 class="video-section-title">
+                        <i class="fa-brands fa-youtube"></i>
+                        <span>Videos e Dicas</span>
+                    </h2>
+                    <p class="video-intro">
+                        Assista vídeos educativos e confira dicas práticas sobre agricultura urbana, hortas comunitárias, compostagem, controle de pragas e sustentabilidade. Aprenda técnicas de cultivo, cuidados essenciais e inspire-se com experiências de outros membros da comunidade para transformar seu espaço em um ambiente mais verde e produtivo.
+                    </p>
+                </div>
+
+                <div class="video-tips-section">
+                    <div class="video-container">
+                        <iframe width="500" height="300" src="https://www.youtube.com/embed/L7RH3Z_uYeo?si=VxWtw98a5wknCzMT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-summary">
+                        <h5>Resumo do Vídeo</h5>
+                        <p>
+                            Este vídeo apresenta dicas práticas para iniciar uma horta urbana, abordando o preparo do solo, escolha das sementes, técnicas de plantio e cuidados essenciais para garantir o desenvolvimento saudável das plantas. Ideal para quem deseja cultivar alimentos frescos em casa ou participar de hortas comunitárias.
+                        </p>
+                    </div>
+                </div>
+                <div class="video-tips-section">
+                    <div class="video-container">
+                        <iframe width="500" height="300" src="https://www.youtube.com/embed/VG19Si1Dky0?si=pv-RATJ3BNBxdOaG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-summary">
+                        <h5>Resumo do Vídeo</h5>
+                        <p>
+                            Este vídeo ensina como montar uma composteira doméstica simples, mostrando o passo a passo para separar resíduos orgânicos, preparar camadas de matéria seca e úmida, e cuidar do processo de decomposição. Ideal para quem quer reduzir o lixo e produzir adubo natural em casa.
+                        </p>
+                    </div>
+                </div>
+                <div class="video-tips-section">
+                    <div class="video-container">
+                        <iframe width="500" height="300" src="https://www.youtube.com/embed/GUppN-HvaBk?si=IiNJwFwlSf264lg-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-summary">
+                        <h5>Resumo do Vídeo</h5>
+                        <p>
+                            Este vídeo mostra como identificar e tratar doenças comuns em hortas urbanas, com dicas sobre prevenção, uso de soluções naturais e cuidados essenciais para manter as plantas saudáveis. Ideal para quem deseja evitar perdas e garantir uma produção sustentável.
+                        </p>
+                    </div>
+                </div>
+                <div class="see-more-videos"></div>
+                <button class="btn-secondary" onclick="window.open('https://www.youtube.com/results?search_query=cultivo+de+horta+urbana', '_blank')">
+                    <i class="fa-brands fa-youtube"></i> Ver mais vídeos no YouTube
+                </div>
+            </div>
+        </div>
+
+        <!--============ Telas de Ação ========== -->
+
+        <!-- Tela: Ranking Total -->
+        <div class="screen" id="ranking-total-screen">
+            <div class="screen-content">
+                <div class="screen-header">
+                    <h3 class="screen-title">Ranking Total</h3>
+                    <button class="screen-close">&times;</button>
+                </div>
+                <li class="ranking-item garden-detail-btn_01" data-id="1">
+                    <span class="ranking-position">1</span>
+                    <img src="https://s2-casaejardim.glbimg.com/q2u7fTAcyVJ9VzsVmXWD0VsNhiM=/0x0:1400x933/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2025/I/W/QGner4Rr649bm9QCElQA/augusta-b.jpg" alt="Horta 1" class="ranking-avatar">
+                    <div class="ranking-info">
+                        <div class="ranking-name">Horta Comunitária Augusta B</div>
+                        <div class="ranking-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Curitiba (PR)
+                        </div>
+                    </div>
+                    <div class="ranking-stats">
+                        <div class="ranking-stat">
+                            <i class="fas fa-users"></i>
+                            53 produtores
+                        </div>
+                        <div class="ranking-stat">
+                            <i class="fas fa-star"></i>
+                            4.8
+                        </div>
+                    </div>
+                    <span class="ranking-points">980 pts</span>
+                </li>
+                <li class="ranking-item garden-detail-btn_02" data-id="2">
+                    <span class="ranking-position">2</span>
+                    <img src="https://s2-casaejardim.glbimg.com/ugL-0qPGoDlQXqv3V_pO-udgCHM=/0x0:1400x945/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2025/f/U/zTgWehQGqkpLGBlx3RsA/sete-lagoas.jpg" alt="Horta 2" class="ranking-avatar">
+                    <div class="ranking-info">
+                        <div class="ranking-name">Hortas Comunitárias de Sete Lagoas</div>
+                        <div class="ranking-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Sete Lagoas (MG)
+                        </div>
+                    </div>
+                    <div class="ranking-stats">
+                        <div class="ranking-stat">
+                            <i class="fas fa-users"></i>
+                            Aproximadamente 320 Familias
+                        </div>
+                        <div class="ranking-stat">
+                            <i class="fas fa-star"></i>
+                            4.9
+                        </div>
+                    </div>
+                    <span class="ranking-points">950 pts</span>
+                </li>
+                <li class="ranking-item garden-detail-btn_03" data-id="3">
+                    <span class="ranking-position">3</span>
+                    <img src="https://s2-casaejardim.glbimg.com/wIh7UdyIFINF7GNiZqW0LalF8vc=/0x0:1400x788/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2025/V/Y/xk6AhUQeCcKVYeLC7Vkg/horta-do-dirceu.png" alt="Horta 2" class="ranking-avatar">
+                    <div class="ranking-info">
+                        <div class="ranking-name">Hortas Comunitárias do Dirceu</div>
+                        <div class="ranking-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Teresina (PI)
+                        </div>
+                    </div>
+                    <div class="ranking-stats">
+                        <div class="ranking-stat">
+                            <i class="fas fa-users"></i>
+                            418 Familias
+                        </div>
+                        <div class="ranking-stat">
+                            <i class="fas fa-star"></i>
+                            4.7
+                        </div>
+                    </div>
+                    <span class="ranking-points">900 pts</span>
+                </li>
+                <li class="ranking-item garden-detail-btn_04" data-id="4">
+                    <span class="ranking-position">4</span>
+                    <img src="https://s2-casaejardim.glbimg.com/kyeFe9IzyZjJV0ZNigZ2VADtzPg=/0x0:1400x906/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2025/E/k/yqMYDuRlAAWZxDUJZvrA/horta-birigui.jpg" alt="Horta 4" class="ranking-avatar">
+                    <div class="ranking-info">
+                        <div class="ranking-name">Hortas Comunitárias de Birigui</div>
+                        <div class="ranking-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Birigui (SP)
+                        </div>
+                    </div>
+                    <div class="ranking-stats">
+                        <div class="ranking-stat">
+                            <i class="fas fa-users"></i>
+                            2 Mil Familias
+                        </div>
+                        <div class="ranking-stat">
+                            <i class="fas fa-star"></i>
+                            4.5
+                        </div>
+                    </div>
+                    <span class="ranking-points">890 pts</span>
+                </li>
+                <li class="ranking-item garden-detail-btn_05" data-id="5">
+                    <span class="ranking-position">5</span>
+                    <img src="https://s2-casaejardim.glbimg.com/XAHhLyFWLdZ8OnE22L_0ljf8ZTg=/0x0:1400x788/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2025/c/1/uxvjrXTLuwxrPtLB5ZJg/horta-da-cidade.jpg" alt="Horta 5" class="ranking-avatar">
+                    <div class="ranking-info">
+                        <div class="ranking-name">Horta Da Cidade</div>
+                        <div class="ranking-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            São Paulo (SP)
+                        </div>
+                    </div>
+                    <div class="ranking-stats">
+                        <div class="ranking-stat">
+                            <i class="fas fa-users"></i>
+                            produção voltada a organizações sociais
+                        </div>
+                        <div class="ranking-stat">
+                            <i class="fas fa-star"></i>
+                            4.8
+                        </div>
+                    </div>
+                    <span class="ranking-points">880 pts</span>
+                </li>
+                <li class="ranking-item garden-detail-btn_06" data-id="6">
+                    <span class="ranking-position">6</span>
+                    <img src="https://s2-casaejardim.glbimg.com/oTxYdPqUAKx1gheq2vd251mpNjQ=/0x0:1400x932/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2025/A/T/mq9vZiR3C0E5VLNmpB8Q/lomba-do-pinheiro.jpg" alt="Horta 6" class="ranking-avatar">
+                    <div class="ranking-info">
+                        <div class="ranking-name">Horta Lomba do Pinheiro</div>
+                        <div class="ranking-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Porto Alegre (RS)
+                        </div>
+                    </div>
+                    <div class="ranking-stats">
+                        <div class="ranking-stat">
+                            <i class="fas fa-users"></i>
+                            18 Familias
+                        </div>
+                        <div class="ranking-stat">
+                            <i class="fas fa-star"></i>
+                            4.6
+                        </div>
+                    </div>
+                    <span class="ranking-points">860 pts</span>
+                </li>
+                <li class="ranking-item garden-detail-btn_07" data-id="7">
+                    <span class="ranking-position">7</span>
+                    <img src="https://s2-casaejardim.glbimg.com/7p6OVxy0BxlLi0-j_MMEmivi2hk=/0x0:1400x1400/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2025/6/b/72h5rkRgOlTxJAhtrwfQ/horta-girassol.jpg" alt="Horta 7" class="ranking-avatar">
+                    <div class="ranking-info">
+                        <div class="ranking-name">Horta Girassol</div>
+                        <div class="ranking-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            São Sebastião (DF)
+                        </div>
+                    </div>
+                    <div class="ranking-stats">
+                        <div class="ranking-stat">
+                            <i class="fas fa-users"></i>
+                            22 Familias
+                        </div>
+                        <div class="ranking-stat">
+                            <i class="fas fa-star"></i>
+                            4.4
+                        </div>
+                    </div>
+                    <span class="ranking-points">840 pts</span>
+                </li>
+            </div>
+        </div>
+
+        <!-- Telas: Detalhes da Horta -->
+        <div class="screen" id="garden-detail-screen_01">
+            <div class="screen-content">
+                <div class="screen-header">
+                    <h3 class="screen-title">Detalhes da Horta</h3>
+                    <button class="screen-close">&times;</button>
+                </div>
+                <div class="screen-body">
+                    <div class="garden-detail-container">
+                        <div class="garden-image-section">
+                            <div class="garden-image-wrapper">
+                                <img class="garden-image" src="https://s2-casaejardim.glbimg.com/q2u7fTAcyVJ9VzsVmXWD0VsNhiM=/0x0:1400x933/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2025/I/W/QGner4Rr649bm9QCElQA/augusta-b.jpg" alt="Horta">
+                            </div>
+                        </div>
+                        <div class="garden-info">
+                            <h2 class="garden-name">Horta Comunitária Augusta B</h2>
+                            <div class="garden-stats">
+                                <div class="garden-stat">
+                                    <div class="stat-value">4.8</div>
+                                    <div class="star-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <div class="stat-label">124 avaliações</div>
+                                </div>
+                                <div class="garden-stat">
+                                    <div class="stat-value">53</div>
+                                    <div class="stat-label">Produtores</div>
+                                </div>
+                                <div class="garden-stat">
+                                    <div class="stat-value">2020</div>
+                                    <div class="stat-label">Fundada em</div>
+                                </div>
+                            </div>
+                            <div class="garden-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-map-marker-alt meta-icon"></i>
+                                    <span>Rua Dr. Plínio de Mattos Pessoa, em frente ao número 200 - Vila Augusta, Curitiba - PR</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock meta-icon"></i>
+                                    <span>Não informado</span>
+                                </div>
+                            </div>
+                            <div class="card-badge">Aberta ao público</div>
+                        </div>
+                        <div class="garden-description">
+                            <p>A Horta Comunitária Augusta B, localizada na Vila Augusta em Curitiba, é referência em agricultura urbana sustentável. Fundada em 2020, reúne mais de 50 produtores locais que cultivam hortaliças, ervas e flores de forma colaborativa. O espaço oferece oficinas semanais de plantio, sistema de compostagem comunitária e incentiva o voluntariado, promovendo integração entre moradores e educação ambiental. Aberta ao público, a horta é reconhecida por sua organização, diversidade de cultivos e impacto positivo na qualidade de vida da comunidade.</p>
+                        </div>                        
+                    </div>
+
+                    <h3 class="section-subtitle">Atividades e Recursos</h3>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-seedling feature-icon"></i>
+                            <div class="feature-title">Cultivo e Colheita</div>
+                            <div class="feature-info">Diversos hortelões cultivam hortaliças como alface, couve, repolho, chicória, acelga, rabanete, beterraba e salsinha, totalmente livres de agrotóxicos</div>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-recycle feature-icon"></i>
+                            <div class="feature-title">Capacitação e Educação Ambiental</div>
+                            <div class="feature-info">Hortelões recebem orientações técnicas da SMSAN, inclusive capacitação sobre compostagem e manejo sustentável de resíduos na Fazenda Urbana do Cajuru (via startup Compostroca)</div>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-hand-holding-heart feature-icon"></i>
+                            <div class="feature-title">Inclusão Social e Bem-Estar</div>
+                            <div class="feature-info">A horta é valorizada como instrumento de combate ao isolamento e de melhoria da qualidade de vida na comunidade local.</div>
+                        </div>
+                    </div>
+
+                    <h3 class="section-subtitle">Fotos da Comunidade</h3>
+                    <div class="gallery-grid">
+                        <img class="gallery-image" src="https://mid-noticias.curitiba.pr.gov.br/2023/00406569.jpg" alt="Horta">
+                        <img class="gallery-image" src="https://mid-noticias.curitiba.pr.gov.br/2023/00406538.jpg" alt="Horta">
+                        <img class="gallery-image" src="https://mid-noticias.curitiba.pr.gov.br/2023/00406556.jpg" alt="Horta">
+                        <img class="gallery-image" src="https://mid-noticias.curitiba.pr.gov.br/2023/capa/00406531.jpg" alt="Horta">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="screen" id="garden-detail-screen_02">
+            <div class="screen-content">
+                <div class="screen-header">
+                    <h3 class="screen-title">Detalhes da Horta</h3>
+                    <button class="screen-close">&times;</button>
+                </div>
+                <div class="screen-body">
+                    <div class="garden-detail-container">
+                        <div class="garden-image-section">
+                            <div class="garden-image-wrapper">
+                                <img class="garden-image" src="https://s2-casaejardim.glbimg.com/ugL-0qPGoDlQXqv3V_pO-udgCHM=/0x0:1400x945/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2025/f/U/zTgWehQGqkpLGBlx3RsA/sete-lagoas.jpg" alt="Horta">
+                            </div>
+                        </div>
+                        <div class="garden-info">
+                            <h2 class="garden-name">Horta Comunitária de Sete Lagoas</h2>
+                            <div class="garden-stats">
+                                <div class="garden-stat">
+                                    <div class="stat-value">4.9</div>
+                                    <div class="star-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <div class="stat-label">86 avaliações</div>
+                                </div>
+                                <div class="garden-stat">
+                                    <div class="stat-value">320</div>
+                                    <div class="stat-label">Famílias Aproximadamente</div>
+                                </div>
+                                <div class="garden-stat">
+                                    <div class="stat-value">1982</div>
+                                    <div class="stat-label">Fundada em</div>
+                                </div>
+                            </div>
+                            <div class="garden-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-map-marker-alt meta-icon"></i>
+                                    <span>Bairros Vapabuçu, JK, Nova Cidade, Cidade de Deus, Bernardo Valadares, Barreiro e Montreal/Canadá - MG</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock meta-icon"></i>
+                                    <span>7:30 as 18:00</span>
+                                </div>
+                            </div>
+                            <div class="card-badge">Aberta ao público</div>
+                        </div>
+                        <div class="garden-description">
+                            <p>A Horta Comunitária de Sete Lagoas é um dos maiores exemplos de agricultura urbana colaborativa em Minas Gerais. Fundada em 1982, reúne aproximadamente 320 famílias dos bairros Vapabuçu, JK, Nova Cidade, Cidade de Deus, Bernardo Valadares, Barreiro e Montreal/Canadá. O espaço promove o cultivo sustentável de hortaliças, ervas e frutas, além de incentivar práticas de compostagem e educação ambiental. Aberta ao público, a horta oferece oficinas, feiras orgânicas e atividades de integração comunitária, fortalecendo laços sociais e contribuindo para a alimentação saudável e o desenvolvimento sustentável da região.</p>
+                        </div>
+                    </div>
+
+                    <h3 class="section-subtitle">Atividades e Recursos</h3>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-seedling feature-icon"></i>
+                            <div class="feature-title">Cultivo e Colheita</div>
+                            <div class="feature-info">As famílias cultivam hortaliças orgânicas como alface, couve, beterraba e outras, garantindo alimentos frescos e saudáveis para a comunidade.</div>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-recycle feature-icon"></i>
+                            <div class="feature-title">Recursos e Infraestrutura</div>
+                            <div class="feature-info">As hortas contam com canteiros organizados, equipamentos como microtratores e infraestrutura básica, como banheiros químicos e bebedouros.</div>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-hand-holding-heart feature-icon"></i>
+                            <div class="feature-title">Parcerias e Apoio Comunitário</div>
+                            <div class="feature-info">Associações locais coordenam o trabalho dos horticultores e promovem capacitações para troca de conhecimentos.</div>
+                        </div>
+                    </div>
+
+                    <h3 class="section-subtitle">Fotos da Comunidade</h3>
+                    <div class="gallery-grid">
+                        <img class="gallery-image" src="https://i.ytimg.com/vi/-f1yHEXHft4/maxresdefault.jpg" alt="Horta">
+                        <img class="gallery-image" src="https://ekkogreen.com.br/wp-content/uploads/2022/07/013848_5832dfd818e4e_hortas.jpg" alt="Horta">
+                        <img class="gallery-image" src="https://www.seubairrohoje.com.br/wp-content/uploads/2021/12/Horta-1.jpg" alt="Horta">
+                        <img class="gallery-image" src="https://www.setelagoasnoticias.com.br/sig/www/openged/conteudos/14892/014892_63629e6129a15_Copia_de_Copia_de_Imagem_Site_4.jpg" alt="Horta">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="screen" id="garden-detail-screen_03">
+            <div class="screen-content">
+                <div class="screen-header">
+                    <h3 class="screen-title">Detalhes da Horta</h3>
+                    <button class="screen-close">&times;</button>
+                </div>
+                <div class="screen-body">
+                    <div class="garden-detail-container">
+                        <div class="garden-image-section">
+                            <div class="garden-image-wrapper">
+                                <img class="garden-image" src="https://s2-casaejardim.glbimg.com/wIh7UdyIFINF7GNiZqW0LalF8vc=/0x0:1400x788/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2025/V/Y/xk6AhUQeCcKVYeLC7Vkg/horta-do-dirceu.png" alt="Horta">
+                            </div>
+                        </div>
+                        <div class="garden-info">
+                            <h2 class="garden-name">Hortas Comunitárias do Dirceu</h2>
+                            <div class="garden-stats">
+                                <div class="garden-stat">
+                                    <div class="stat-value">4.7</div>
+                                    <div class="star-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <div class="stat-label">76 avaliações</div>
+                                </div>
+                                <div class="garden-stat">
+                                    <div class="stat-value">418</div>
+                                    <div class="stat-label">Familias</div>
+                                </div>
+                                <div class="garden-stat">
+                                    <div class="stat-value">1987</div>
+                                    <div class="stat-label">Fundada em</div>
+                                </div>
+                            </div>
+                            <div class="garden-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-map-marker-alt meta-icon"></i>
+                                    <span>Bairro Dirceu - Teresina - PI</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock meta-icon"></i>
+                                    <span>7h as 18:00</span>
+                                </div>
+                            </div>
+                            <div class="card-badge">Aberta ao público</div>
+                        </div>
+                        <div class="garden-description">
+                            <p>As Hortas Comunitárias do Dirceu, localizadas no bairro Dirceu em Teresina, são referência em agricultura urbana colaborativa no Piauí. Fundadas em 1987, reúnem mais de 400 famílias que cultivam hortaliças, ervas e frutas de forma sustentável e integrada. O projeto promove educação ambiental, oficinas de capacitação e práticas de compostagem, fortalecendo o vínculo entre moradores e incentivando a alimentação saudável. Aberta ao público, a horta contribui para o desenvolvimento social, geração de renda e melhoria da qualidade de vida na comunidade, tornando-se um exemplo de inclusão e transformação urbana.</p>
+                        </div>
+                    </div>
+
+                    <h3 class="section-subtitle">Atividades e Recursos</h3>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-seedling feature-icon"></i>
+                            <div class="feature-title">Agricultura Urbana Sustentável</div>
+                            <div class="feature-info">As hortas comunitárias do Dirceu promovem o cultivo de hortaliças, verduras e plantas medicinais, realizadas pelos moradores locais. Além do plantio e colheita, há troca de sementes, capacitação e eventos educativos para fortalecer a agricultura urbana sustentável.</div>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-recycle feature-icon"></i>
+                            <div class="feature-title">Infraestrutura e Capacitação Ambiental</div>
+                            <div class="feature-info">Os terrenos são disponibilizados pela Prefeitura de Teresina ou em áreas públicas comunitárias. A infraestrutura conta com acesso à água e apoio técnico esporádico de órgãos públicos, além de insumos básicos para o cultivo.</div>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-hand-holding-heart feature-icon"></i>
+                            <div class="feature-title">Parcerias Comunitárias e Apoio Social</div>
+                            <div class="feature-info">As hortas são organizadas por associações comunitárias que recebem apoio de programas sociais e ONGs locais. Essas parcerias ajudam na capacitação dos participantes e no fornecimento de ferramentas e insumos para garantir a continuidade do trabalho..</div>
+                        </div>
+                    </div>
+
+                    <h3 class="section-subtitle">Fotos da Comunidade</h3>
+                    <div class="gallery-grid">
+                        <img class="gallery-image" src="https://images.adsttc.com/media/images/5a02/d2e5/b22e/38b1/dc00/07f2/newsletter/HORTAS_ATUAL01.jpg?1510134493=" alt="Horta">
+                        <img class="gallery-image" src="https://pmt.pi.gov.br/wp-content/uploads/sites/34/2020/12/hortas.jpg" alt="Horta">
+                        <img class="gallery-image" src="https://www.viagora.com.br/media/images/2023/04/10/horta-do-dirceu_l5nrOBu.jpg.1200x0_q85_crop-top.webp" alt="Horta">
+                        <img class="gallery-image" src="https://www.cidadessustentaveis.org.br/api/boapratica/imagem/1282" alt="Horta">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="screen" id="garden-detail-screen_04">
+            <div class="screen-content">
+                <div class="screen-header">
+                    <h3 class="screen-title">Detalhes da Horta</h3>
+                    <button class="screen-close">&times;</button>
+                </div>
+                <div class="screen-body">
+                    <div class="garden-detail-container">
+                        <div class="garden-image-section">
+                            <div class="garden-image-wrapper">
+                                <img class="garden-image" src="https://s2-casaejardim.glbimg.com/kyeFe9IzyZjJV0ZNigZ2VADtzPg=/0x0:1400x906/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2025/E/k/yqMYDuRlAAWZxDUJZvrA/horta-birigui.jpg" alt="Horta">
+                            </div>
+                        </div>
+                        <div class="garden-info">
+                            <h2 class="garden-name">Hortas Comunitárias de Birigui</h2>
+                            <div class="garden-stats">
+                                <div class="garden-stat">
+                                    <div class="stat-value">4.5</div>
+                                    <div class="star-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <div class="stat-label">55 avaliações</div>
+                                </div>
+                                <div class="garden-stat">
+                                    <div class="stat-value">2 Mil</div>
+                                    <div class="stat-label">Familias</div>
+                                </div>
+                                <div class="garden-stat">
+                                    <div class="stat-value">1986</div>
+                                    <div class="stat-label">Fundada em</div>
+                                </div>
+                            </div>
+                            <div class="garden-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-map-marker-alt meta-icon"></i>
+                                    <span> Birigui - São Paulo</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock meta-icon"></i>
+                                    <span>7:30 as 17:00</span>
+                                </div>
+                            </div>
+                            <div class="card-badge">Aberta ao público</div>
+                        </div>
+                        <div class="garden-description">
+                            <p>As Hortas Comunitárias de Birigui são um dos maiores projetos de agricultura urbana do interior paulista, reunindo cerca de 2 mil famílias em atividades colaborativas de cultivo de hortaliças, ervas e frutas. O espaço incentiva práticas sustentáveis como compostagem, educação ambiental e integração social, oferecendo oficinas, feiras orgânicas e capacitação para os participantes. Reconhecida pela sua dimensão e impacto, a horta contribui para a inclusão, geração de renda e melhoria da qualidade de vida na comunidade, tornando-se referência regional em sustentabilidade e transformação urbana.</p>
+                        </div>                       
+                    </div>
+
+                    <h3 class="section-subtitle">Atividades e Recursos</h3>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-seedling feature-icon"></i>
+                            <div class="feature-title">Assistência Técnica e Insumos</div>
+                            <div class="feature-info">A Prefeitura fornece suporte técnico, além de sementes, adubo orgânico, calcário e kits hidráulicos (carriola, canos, torneira, luvas etc.), facilitando o cultivo adequado.</div>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-recycle feature-icon"></i>
+                            <div class="feature-title">Distribuição e Doação</div>
+                            <div class="feature-info">A produção é destinada em três partes: consumo das famílias, doação a entidades sociais (via programa Fome Zero) e, em projetos específicos, venda para gerar renda comunitária (até um terço da produção).</div>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-hand-holding-heart feature-icon"></i>
+                            <div class="feature-title">Sustentabilidade e agroecologia</div>
+                            <div class="feature-info">Práticas baseadas na agroecologia e permacultura, sem agrotóxicos, uso de compostagem e captação de água para irrigação, promovendo saúde ambiental, segurança alimentar e bem-estar comunitário.</div>
+                        </div>
+                    </div>
+
+                    <h3 class="section-subtitle">Fotos da Comunidade</h3>
+                    <div class="gallery-grid">
+                        <img class="gallery-image" src="https://comitebaixotiete.org/wp-content/uploads/2024/07/1722081882675-1.jpg" alt="Horta">
+                        <img class="gallery-image" src="https://www.hojemais.com.br/imagem/noticia/1000/1000/1724279582_10402.jpeg" alt="Horta">
+                        <img class="gallery-image" src="https://comitebaixotiete.org/wp-content/uploads/2024/07/1722081882824-696x313.jpg" alt="Horta">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="screen" id="garden-detail-screen_05">
+            <div class="screen-content">
+                <div class="screen-header">
+                    <h3 class="screen-title">Detalhes da Horta</h3>
+                    <button class="screen-close">&times;</button>
+                </div>
+                <div class="screen-body">
+                    <div class="garden-detail-container">
+                        <div class="garden-image-section">
+                            <div class="garden-image-wrapper">
+                                <img class="garden-image" src="https://s2-casaejardim.glbimg.com/XAHhLyFWLdZ8OnE22L_0ljf8ZTg=/0x0:1400x788/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2025/c/1/uxvjrXTLuwxrPtLB5ZJg/horta-da-cidade.jpg" alt="Horta">
+                            </div>
+                        </div>
+                        <div class="garden-info">
+                            <h2 class="garden-name">Horta Da Cidade</h2>
+                            <div class="garden-stats">
+                                <div class="garden-stat">
+                                    <div class="stat-value">4.5</div>
+                                    <div class="star-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <div class="stat-label">69 avaliações</div>
+                                </div>
+                                <div class="garden-stat">
+                                    <div class="stat-value">Voltada Para Organizações Sociais</div>
+                                </div>
+                                <div class="garden-stat">
+                                    <div class="stat-value">2024</div>
+                                    <div class="stat-label">Fundada em</div>
+                                </div>
+                            </div>
+                            <div class="garden-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-map-marker-alt meta-icon"></i>
+                                    <span> São Paulo - SP</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock meta-icon"></i>
+                                    <span>8:00 as 16:00</span>
+                                </div>
+                            </div>
+                            <div class="card-badge">Aberta ao público</div>
+                        </div>
+                        <div class="garden-description">
+                            <p>A Horta Da Cidade, localizada em São Paulo, é voltada para organizações sociais e destaca-se pela produção sustentável de hortaliças e ervas. Fundada em 2024, promove práticas de agroecologia, compostagem e integração comunitária, oferecendo assistência técnica, oficinas e distribuição de alimentos para entidades sociais. O projeto contribui para a inclusão, geração de renda e melhoria da qualidade de vida, tornando-se referência em sustentabilidade urbana.</p>
+                        </div>
+                    </div>
+
+                    <h3 class="section-subtitle">Atividades e Recursos</h3>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-seedling feature-icon"></i>
+                            <div class="feature-title">Produção agroecológica diversificada</div>
+                            <div class="feature-info">mais de 120 tipos de cultivos, incluindo hortaliças, PANCs (plantas alimentícias não convencionais), ervas medicinais, aromáticas, frutas e legumes.</div>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-recycle feature-icon"></i>
+                            <div class="feature-title">Doação a entidades sociais</div>
+                            <div class="feature-info">os alimentos são destinados a pelo menos sete organizações que atendem população em vulnerabilidade na região central de São Paulo.</div>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-hand-holding-heart feature-icon"></i>
+                            <div class="feature-title">Capacitação e conscientização</div>
+                            <div class="feature-info">o espaço funciona como local educativo, promovendo técnicas sustentáveis e segurança alimentar, além de servir como exemplo público de agricultura urbana.</div>
+                        </div>
+                    </div>
+
+                    <h3 class="section-subtitle">Fotos da Comunidade</h3>
+                    <div class="gallery-grid">
+                        <img class="gallery-image" src="https://www.birigui.sp.leg.br/imagens/FrentedaCmaraBirigui.jpg" alt="Horta">
+                        <img class="gallery-image" src="https://prefeitura.sp.gov.br/documents/34276/20433983/20250211_Horta%2Bda%2BCidade%2BSampa_Rural_MP_0030.jpg/b86bd182-2995-a459-3ae0-0666fee2028b?download=false&t=1739291417476&version=1.0" alt="Horta">
+                        <img class="gallery-image" src="https://prefeitura.sp.gov.br/documents/34276/20433983/20250211_Horta+da+Cidade+Sampa_Rural_MP_0024.jpg/c62dc136-dd5d-30d7-bab8-1d0ab111ad66?version=1.0&t=1739291419726&download=false" alt="Horta">
+                        <img class="gallery-image" src="https://prefeitura.sp.gov.br/documents/34276/20433983/20250211_Horta+da+Cidade+Sampa_Rural_MP_0023.jpg/f883cb55-0c5f-e522-5839-1e4ffd39c047?version=1.0&t=1739291420353&download=false" alt="Horta">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="screen" id="garden-detail-screen_06">
+            <div class="screen-content">
+                <div class="screen-header">
+                    <h3 class="screen-title">Detalhes da Horta</h3>
+                    <button class="screen-close">&times;</button>
+                </div>
+                <div class="screen-body">
+                    <div class="garden-detail-container">
+                        <div class="garden-image-section">
+                            <div class="garden-image-wrapper">
+                                <img class="garden-image" src="https://s2-casaejardim.glbimg.com/oTxYdPqUAKx1gheq2vd251mpNjQ=/0x0:1400x932/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2025/A/T/mq9vZiR3C0E5VLNmpB8Q/lomba-do-pinheiro.jpg" alt="Horta">
+                            </div>
+                        </div>
+                        <div class="garden-info">
+                            <h2 class="garden-name">Horta Lomba do Pinheiro</h2>
+                            <div class="garden-stats">
+                                <div class="garden-stat">
+                                    <div class="stat-value">4.6</div>
+                                    <div class="star-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <div class="stat-label">75 avaliações</div>
+                                </div>
+                                <div class="garden-stat">
+                                    <div class="stat-value">18</div>
+                                    <div class="stat-label">Familias</div>
+                                </div>
+                                <div class="garden-stat">
+                                    <div class="stat-value">2011</div>
+                                    <div class="stat-label">Fundada em</div>
+                                </div>
+                            </div>
+                            <div class="garden-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-map-marker-alt meta-icon"></i>
+                                    <span> Porto Alegre - RS</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock meta-icon"></i>
+                                    <span>Não Definido</span>
+                                </div>
+                            </div>
+                            <div class="card-badge">Aberta ao público</div>
+                        </div>
+                        <div class="garden-description">
+                            <p>A Horta Lomba do Pinheiro, localizada em Porto Alegre, reúne 18 famílias em um projeto de agricultura urbana sustentável. Fundada em 2011, promove o cultivo agroecológico de hortaliças, ervas e frutas, sem uso de agrotóxicos. O espaço incentiva práticas de compostagem, educação ambiental e integração social, oferecendo oficinas e atividades comunitárias. Aberta ao público, a horta contribui para a inclusão, geração de renda e melhoria da qualidade de vida na região.</p>
+                        </div>
+                    </div>
+
+                    <h3 class="section-subtitle">Atividades e Recursos</h3>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-seedling feature-icon"></i>
+                            <div class="feature-title">Educação ambiental, oficinas e terapias sociais</div>
+                            <div class="feature-info">Inclui rodas de conversa, ioga, palestras, trilhas ecológicas — todos voltados à inclusão social, terapêutica e à conscientização ambiental.</div>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-recycle feature-icon"></i>
+                            <div class="feature-title">Cultivos agroecológicos diversos</div>
+                            <div class="feature-info">Produção de hortaliças tradicionais, PANCs, plantas medicinais (como hibisco, alcachofra, alfazema, estévia), frutas e temperos, com compostagem e estufa própria.</div>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-hand-holding-heart feature-icon"></i>
+                            <div class="feature-title">Parcerias institucionais e apoio público</div>
+                            <div class="feature-info">Apoios da Prefeitura, DMLU, Emater-RS/Ascar, UFRGS, CAD e Secretaria Municipal — incluindo fornecimento de composto orgânico, infraestrutura, assessoria técnica.</div>
+                        </div>
+                    </div>
+
+                    <h3 class="section-subtitle">Fotos da Comunidade</h3>
+                    <div class="gallery-grid">
+                        <img class="gallery-image" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjH7sbuFCTsBsRaqnQATnSUK0MkjkkbC50auuZ76N1aMlQCZpZmjM7yKS6XlmlStoBqzeHzbyUTnoVkudJqnN6JWc8SeLYWck35dVMnhmfM9ujwJy0tjhNdCPFIpdyKwv6IlWiVjRGlQvjN/s1600/horta1.jpg" alt="Horta">
+                        <img class="gallery-image" src="https://sler.com.br/wp-content/uploads/2022/12/Horta-Comunitaria.jpg" alt="Horta">
+                        <img class="gallery-image" src="https://coletivocidadequequeremos.wordpress.com/wp-content/uploads/2016/08/hu-231.jpg?h=389&w=584" alt="Horta">
+                        <img class="gallery-image" src="https://ciclovivo.com.br/wp-content/uploads/2016/03/horta_lomba_do_pinheiro.jpg" alt="Horta">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="screen" id="garden-detail-screen_07">
+            <div class="screen-content">
+                <div class="screen-header">
+                    <h3 class="screen-title">Detalhes da Horta</h3>
+                    <button class="screen-close">&times;</button>
+                </div>
+                <div class="screen-body">
+                    <div class="garden-detail-container">
+                        <div class="garden-image-section">
+                            <div class="garden-image-wrapper">
+                                <img class="garden-image" src="https://s2-casaejardim.glbimg.com/7p6OVxy0BxlLi0-j_MMEmivi2hk=/0x0:1400x1400/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2025/6/b/72h5rkRgOlTxJAhtrwfQ/horta-girassol.jpg" alt="Horta">
+                            </div>
+                        </div>
+                        <div class="garden-info">
+                            <h2 class="garden-name">Horta Girassol</h2>
+                            <div class="garden-stats">
+                                <div class="garden-stat">
+                                    <div class="stat-value">4.4</div>
+                                    <div class="star-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <div class="stat-label">45 avaliações</div>
+                                </div>
+                                <div class="garden-stat">
+                                    <div class="stat-value">22</div>
+                                    <div class="stat-label">Familias</div>
+                                </div>
+                                <div class="garden-stat">
+                                    <div class="stat-value">2005</div>
+                                    <div class="stat-label">Fundada em</div>
+                                </div>
+                            </div>
+                            <div class="garden-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-map-marker-alt meta-icon"></i>
+                                    <span> São Sebastião - DF</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock meta-icon"></i>
+                                    <span>Não Definido</span>
+                                </div>
+                            </div>
+                            <div class="card-badge">Aberta ao público</div>
+                        </div>
+                        <div class="garden-description">
+                            <p>A Horta Girassol, situada em São Sebastião (DF), é referência em inclusão social e educação ambiental. Fundada em 2005, reúne 22 famílias que cultivam hortaliças, PANCs, plantas medicinais e frutas de forma agroecológica, com compostagem e estufa própria. O espaço promove oficinas, rodas de conversa, trilhas ecológicas e terapias sociais, fortalecendo a integração comunitária e a conscientização ambiental. Aberta ao público, conta com parcerias institucionais e apoio técnico, contribuindo para o bem-estar e a sustentabilidade local.</p>
+                        </div>                        
+                    </div>
+
+                    <h3 class="section-subtitle">Atividades e Recursos</h3>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-seedling feature-icon"></i>
+                            <div class="feature-title">Modelo CSA (Comunidade que Sustenta a Agricultura)</div>
+                            <div class="feature-info">Os membros pagam uma contribuição mensal (~R$ 250) e recebem cestas semanais de hortaliças frescas — fortalecendo a economia solidária e provendo renda direta às famílias produtoras.</div>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-recycle feature-icon"></i>
+                            <div class="feature-title">Educação ambiental e oficinas comunitárias</div>
+                            <div class="feature-info">Ofertas regulares de cursos sobre agroecologia, uso de plantas medicinais (PANCs), alimentação saudável e cultivo sustentável para moradores e escolas locais.</div>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-hand-holding-heart feature-icon"></i>
+                            <div class="feature-title">Parcerias e reconhecimento institucional</div>
+                            <div class="feature-info">Apoio do MDS, Emater-DF, Cáritas Brasileira, e participação em redes como a Rede Mangaba, além de reconhecimento pela ONU como modelo de agricultura urbana sustentável.</div>
+                        </div>
+                    </div>
+
+                    <h3 class="section-subtitle">Fotos da Comunidade</h3>
+                    <div class="gallery-grid">
+                        <img class="gallery-image" src="https://ocp.news/wp-content/uploads/2018/09/Horta-Comunit%C3%A1ria-Girassol_4729_050918.jpg" alt="Horta">
+                        <img class="gallery-image" src="https://static.vakinha.com.br/uploads/vakinha/image/231964/hORTA_giRASSOL.jpeg?ims=700x410" alt="Horta">
+                        <img class="gallery-image" src="https://www.gov.br/mds/pt-br/noticias-e-conteudos/desenvolvimento-social/noticias-desenvolvimento-social/com-apoio-do-mds-horta-organica-comunitaria-girassol-garante-producao-de-alimentos-saudaveis-no-df/foto-2-3-horta-girassol.jpeg" alt="Horta">
+                        <img class="gallery-image" src="https://live.staticflickr.com/65535/48930277777_b2c458eb08_b.jpg" alt="Horta">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Footer-->
+    <footer class="footer"> 
+        <div class="footer-top">
+            <div class="footer-left">
+                <img src="Imagens/logoverde.png" alt="Wastech Logo" class="logo" />
+            </div>
+
+            <nav class="footer-nav">
+                <a href="#">Comunidade</a>
+                <a href="#">Sobre Nós</a>
+                <a href="#">Gamificação</a>
+                <a href="#">Página Inicial</a>
+                <a href="#">Dashboard</a>
+            </nav>
+
+            <div class="footer-social">
+                <a href="https://www.instagram.com/wastechpsvs/"><img src="Favicon/insta-icon.svg" alt="Instagram" /></a>
+                <a href="#"><img src="Favicon/yt-icon.svg" alt="YouTube" /></a>
+            </div>
+        </div>
+        <hr class="footer-divider">
+        <div class="footer-bottom">
+            <p class="copyright">© 2025 WastTech. Todos os Direitos Reservados.</p>
+            <div class="footer-links">
+                <a href="#">Políticas de Privacidade</a>
+                <a href="#">Termos de Serviço</a>
+            </div>
+            <img src="Favicon/plant-icon.svg" alt="Ícone Planta" class="footer-icon" />
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="javascripts/comunidade.js/script.js"></script>
+    <script src="javascripts/comunidade.js/faq-data.js"></script>
+    <script src="javascripts/notificações.js"></script>
+    <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var userName = sessionStorage.getItem('wastech_userName') || 'Usuário';
+    var profileNameSpan = document.querySelector('.profile span');
+    if (profileNameSpan) {
+      profileNameSpan.innerHTML = userName + ' <i class="fas fa-chevron-down dropdown-icon"></i>';
+    }
+  });
+</script>
+
+</body>
+</html>

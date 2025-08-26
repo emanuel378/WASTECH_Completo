@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro | Wastech</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/cadastro.css">
+  <link rel="shortcut icon" href="Favicon/favicon.ico" type="image/x-icon">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="content-wrapper">
+      <div class="image-container">
+        <img src="Imagens/logobranca.png" alt="Logo Wastech">
+      </div>
+      <div class="form-container">
+        <div class="register-header">
+          <h1>Crie sua conta</h1>
+          <p>Junte-se à Wastech!</p>
+        </div>
+        <form id="registerForm">
+          <div class="form-grid">
+            <div class="input-group">
+              <label for="fullname">Nome Completo</label>
+              <i class="fas fa-user"></i>
+              <input type="text" id="fullname" placeholder="Seu nome completo" required>
+            </div>
+            <div class="input-group">
+              <label for="email">E-mail</label>
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="email" placeholder="seu.email@exemplo.com" required>
+            </div>
+            <div class="input-group">
+              <label for="password">Senha</label>
+              <i class="fas fa-lock"></i>
+              <input type="password" id="password" placeholder="••••••••" required>
+              <span class="toggle-password" onclick="togglePassword('password', 'eyeIconPassword')">
+                <i class="fas fa-eye" id="eyeIconPassword"></i>
+              </span>
+            </div>
+            <div class="input-group">
+              <label for="confirm-password">Confirmar Senha</label>
+              <i class="fas fa-lock"></i>
+              <input type="password" id="confirm-password" placeholder="••••••••" required>
+              <span class="toggle-password" onclick="togglePassword('confirm-password', 'eyeIconConfirm')">
+                <i class="fas fa-eye" id="eyeIconConfirm"></i>
+              </span>
+            </div>
+            <div class="input-group">
+              <label for="location">Localização</label>
+              <i class="fas fa-map-marker-alt"></i>
+              <input type="text" id="location" placeholder="Cidade, Estado" required>
+            </div>
+            <div class="input-group">
+              <label for="profilePhoto">Foto de Perfil</label>
+              <i class="fas fa-camera"></i>
+              <input type="file" id="profilePhoto" accept="image/*">
+            </div>
+          </div>
+          <div class="options">
+            <div class="terms">
+              <input type="checkbox" id="terms" required>
+              <label for="terms">Concordo com os <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a></label>
+            </div>
+          </div>
+          <button type="submit" class="register-button">Criar Conta</button>
+          <div class="login-link">
+            Já tem uma conta? <a href="login.html">Faça login</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <footer>
+    &copy; 2025 WASTECH - Todos os direitos reservados
+  </footer>
+
+<script>
+  // Configuração do Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyCp2xHQUeMipoA44g_QyZ71dnaRHnpGJtQ",
+    authDomain: "wastech-8d384.firebaseapp.com",
+    projectId: "wastech-8d384",
+    storageBucket: "wastech-8d384.appspot.com",
+    messagingSenderId: "957838233480",
+    appId: "1:957838233480:web:576ae21101e425ed0d343d",
+    measurementId: "G-9N582ETX68"
+  };
+
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  // Mostrar mensagens na tela
+  function showMessage(message, isSuccess = false) {
+    // Remove alertas anteriores
+    const existingAlerts = document.querySelectorAll('.alert');
+    existingAlerts.forEach(alert => alert.remove());
+    
+    const alertBox = document.createElement('div');
+    alertBox.className = isSuccess ? 'alert success' : 'alert error';
+    alertBox.textContent = message;
+    document.querySelector('.form-container').prepend(alertBox);
+    setTimeout(() => alertBox.remove(), 5000);
+  }
+
+  // Cadastro - Função corrigida
+  async function registerUser(email, password, userData) {
+    try {
+      // 1. Primeiro cria o usuário no Authentication
+      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+      const user = userCredential.user;
+      let photoURL = '';
+      // 2. Upload da foto de perfil se selecionada
+      const photoInput = document.getElementById('profilePhoto');
+      if (photoInput && photoInput.files && photoInput.files[0]) {
+        const file = photoInput.files[0];
+        const storageRef = firebase.storage().ref('profile_photos/' + user.uid + '.jpg');
+        await storageRef.put(file);
+        photoURL = await storageRef.getDownloadURL();
+      }
+      // 3. Salva dados no Firestore
+      await db.collection('usuarios').doc(user.uid).set({
+        ...userData,
+        uid: user.uid,
+        emailVerified: false,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        photoURL: photoURL
+      });
+      // 4. Atualiza foto no Auth
+      if (photoURL) {
+        await user.updateProfile({ photoURL });
+      }
+      await user.sendEmailVerification();
+    } catch (error) {
+      console.error("Erro no cadastro:", error);
+      
+      // Se falhou depois de criar o usuário no Auth, tenta limpar
+      if (auth.currentUser) {
+        try {
+          await auth.currentUser.delete();
+          console.log("Usuário removido do Auth devido ao erro");
+        } catch (deleteError) {
+          console.error("Erro ao remover usuário:", deleteError);
+        }
+      }
+      
+      throw error;
+    }
+  }
+
+  // Adicionar função para atualizar foto de perfil no Firebase Storage, Firestore e Auth
+  async function updateProfilePhoto(file, userId) {
+    if (!file || !userId) return '';
+    const storageRef = firebase.storage().ref('profile_photos/' + userId + '.jpg');
+    await storageRef.put(file);
+    return await storageRef.getDownloadURL();
+  }
+
+  // Evento de submit
+  document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+    const fullname = document.getElementById('fullname').value.trim();
+    const location = document.getElementById('location').value.trim();
+    const terms = document.getElementById('terms').checked;
+
+    // Validações
+    if (!terms) return showMessage('Você deve aceitar os termos de uso');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showMessage('Por favor, insira um e-mail válido');
+    if (password !== confirmPassword) return showMessage('As senhas não coincidem');
+    if (password.length < 6) return showMessage('A senha deve ter pelo menos 6 caracteres');
+
+    try {
+      await registerUser(email, password, {
+        nome: fullname,
+        email: email,
+        localizacao: location
+      });
+
+      showMessage('Cadastro realizado com sucesso!', true);
+      setTimeout(() => window.location.href = 'login.html', 3000);
+
+    } catch (error) {
+      console.error("Erro completo:", error);
+
+      const errorMessages = {
+        'auth/email-already-in-use': 'Este e-mail já está em uso',
+        'auth/invalid-email': 'E-mail inválido',
+        'auth/weak-password': 'Senha muito fraca',
+        'permission-denied': 'Erro de permissão. Contate o suporte.'
+      };
+
+      showMessage(errorMessages[error.code] || 'Erro ao cadastrar usuário');
+    }
+  });
+
+  // Função corrigida para mostrar/ocultar senha
+  function togglePassword(inputId, iconId) {
+    const passwordInput = document.getElementById(inputId);
+    const eyeIcon = document.getElementById(iconId);
+    
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+      passwordInput.type = 'password';
+      eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+  }
+</script>
+
+</body>
+</html>

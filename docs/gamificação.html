@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WASTECH - Gamificação</title>
+  <link rel="stylesheet" href="css/gamificação.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="Favicon/favicon.ico" type="image/x-icon" />
+  <style>
+    /* Estilos para conquistas desbloqueadas - apenas o círculo */
+    .item-conquista.unlocked .circulo1 {
+      background-color: #4CAF50;
+      color: white;
+      border: 2px solid #4CAF50;
+    }
+    
+    .item-conquista.unlocked .descricao {
+      color: #2e7d32;
+      font-weight: 600;
+    }
+
+    /* Estilos para notificações */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 20px;
+      border-radius: 8px;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 10000;
+      transform: translateX(100%);
+      opacity: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .notification.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    
+    .notification.success {
+      background-color: #4CAF50;
+    }
+    
+    .notification.info {
+      background-color: #2196F3;
+    }
+    
+    .notification.level-up {
+      background: linear-gradient(135deg, #FF9800, #F57C00);
+    }
+    
+    .notification i {
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="top-bar">
+    <div class="logo">
+      <img src="Imagens/logoverde.png" alt="WASTECH Logo">
+    </div>
+    <div class="contact-info">
+      <span><i class="fas fa-phone"></i> (88) 93423-4323</span>
+      <span><i class="fas fa-envelope"></i> wastech@gmail.com</span>
+      <span><i class="fas fa-map-marker-alt"></i> São Paulo, Brasil</span>
+    </div>
+    <div class="top-icons">
+      <span><i class="fas fa-bell"></i> Notificações</span>
+      <div class="profile-container">
+        <div class="profile">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwktGunb0a4j8gZGwCIvKQiq9pf1n8bGA0QkfqzYx0jsz12RU9syffpA2SZ6svdnUovOg&usqp=CAU" alt="Usuário" id="headerProfilePic">
+          <span id="headerUserName">Leonardo <i class="fas fa-chevron-down dropdown-icon"></i></span>
+        </div>
+        <div class="dropdown-menu">
+          <a href="gamificação.html"><i class="fas fa-user"></i> Meu Perfil</a>
+          <a href="suporte.html"><i class="fas fa-question-circle"></i> Ajuda</a>
+          <div class="divider"></div>
+          <a href="login.html"><i class="fas fa-sign-out-alt"></i> Sair</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="menu-bar">
+    <a href="dashboard.html"><i class="fas fa-home"></i> Início</a>
+    <a href="ferramenta.html"><i class="fas fa-seedling"></i> Plantas</a>
+    <a href="ferramenta.html"><i class="fas fa-calendar-alt"></i> Calendário</a>
+    <a href="suporte.html"><i class="fas fa-headset"></i> Suporte</a>
+    <a href="comunidade.html"><i class="fas fa-book"></i> Guias</a>
+    <a href="sobrenos.html"><i class="fas fa-exclamation-circle"></i> Sobre</a>
+    <input type="text" placeholder="Pesquisar..." class="search-box">
+  </nav>
+
+  <div class="heard2">
+    <img src="Imagens/comuunidade.png" alt="">
+    <h1>Perfil</h1>
+  </div>
+  <div class="logo2"> <img src="Imagens/logoverde.png" alt="">
+  </div>
+
+  <main>
+    <section class="Perfil" style="position:relative;">
+      <button class="edit-profile-btn" id="editProfileBtn" title="Editar perfil">
+        <i class="fas fa-pencil-alt"></i>
+      </button>
+      <div class="circulo" id="profilePicContainer">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwktGunb0a4j8gZGwCIvKQiq9pf1n8bGA0QkfqzYx0jsz12RU9syffpA2SZ6svdnUovOg&usqp=CAU" alt="Foto de">
+      </div>
+      <div class="dados-centro">
+        <p id="userLevel">Nível 1 – Iniciante</p>
+        <div class="barra">
+          <div class="preencher" id="levelProgressBar" style="width: 0%"></div>
+        </div>
+        <div class="trofeus">
+          <img src="Imagens/agua.png" alt="Gota de água">
+          <img src="Imagens/sol.png" alt="Sol">
+          <img src="Imagens/planta.png" alt="Folha">
+        </div>
+      </div>
+      <div class="pontos">
+        <img src="Imagens/pontos.png" alt="Ícone de moedas">
+        <p id="userPoints">0</p>
+      </div>
+      <!-- Modal para edição de perfil -->
+      <div id="profileModal" class="modal">
+        <div class="modal-content">
+          <span class="close-btn">&times;</span>
+          <h2>Editar Perfil</h2>
+
+          <div class="profile-pic-container">
+            <img src="//encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwktGunb0a4j8gZGwCIvKQiq9pf1n8bGA0QkfqzYx0jsz12RU9syffpA2SZ6svdnUovOg&usqp=CAU" id="profilePicPreview" class="profile-pic-preview">
+            <label for="profile-pic-input" class="profile-pic-label">
+              <i class="fas fa-camera"></i> Alterar foto
+            </label>
+            <input type="file" id="profile-pic-input" accept="image/*" style="display: none;">
+          </div>
+
+          <div class="form-group">
+            <label for="userName">Nome</label>
+            <input type="text" id="userName" placeholder="Digite seu nome">
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-secondary" id="cancelEdit">Cancelar</button>
+            <button class="btn btn-primary" id="saveProfile">Salvar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="resumo-usuario">
+      <h2>Resumo da Jornada</h2>
+      <div class="card-resumo">
+        <div><strong>XP Total:</strong> <span id="totalXP">0</span> XP</div>
+        <div><strong>Missões completas:</strong> <span id="completedMissions">0</span></div>
+        <div><strong>Dias ativos:</strong> <span id="activeDays">0</span></div>
+        <div><strong>Plantas cultivadas:</strong> <span id="plantsCultivated">0</span></div>
+        <div><strong>Água economizada:</strong> <span id="waterSaved">0</span>L</div>
+        <div><strong>Entrou em:</strong> <span id="joinDate">-</span></div>
+      </div>
+    </section>
+
+
+
+    <section class="meta-mensal">
+      <h2>🎯 Meta do Mês</h2>
+      <p>Economizar <span id="monthGoal">0</span>L de água este mês.</p>
+      <progress value="0" max="100" id="monthProgress"></progress>
+    </section>
+
+    <section class="Missoes">
+      <h2 class="titulo-missao"> <span>Missões Diárias</span></h2>
+
+      <div class="containermissao">
+        <div class="missao">
+          <div class="icone-texto">
+            <div class="circulo">
+              <img src="Imagens/planta.png" alt="Planta">
+            </div>
+            <div class="texto">
+              <p class="titulo">Complete 5 regas esta semana</p>
+              <p class="progresso"><span id="wateringProgress">0</span>/5 concluído</p>
+            </div>
+          </div>
+          <div class="xp">+10XP</div>
+        </div>
+
+        <div class="missao">
+          <div class="icone-texto">
+            <div class="circulo">
+              <img src="Imagens/agua.png" alt="Água">
+            </div>
+            <div class="texto">
+              <p class="titulo">Economize 10L de água</p>
+              <p class="progresso"><span id="waterProgress">0</span>/10L concluído</p>
+            </div>
+          </div>
+          <div class="xp">+15XP</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="conquista">
+      <h2 class="titulo-conquista">Conquistas</h2>
+
+      <div class="containerconquista">
+        <div class="item-conquista unlocked">
+          <div class="circulo1">
+            <i class="fas fa-seedling"></i>
+          </div>
+          <p class="descricao">Iniciante Verde</p>
+        </div>
+
+        <div class="item-conquista locked">
+          <div class="circulo2">
+            <i class="fas fa-lock"></i>
+          </div>
+          <p class="descricao">Poupador de Água</p>
+        </div>
+
+        <div class="item-conquista locked">
+          <div class="circulo3">
+            <i class="fas fa-lock"></i>
+          </div>
+          <p class="descricao">Mestre da reciclagem</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="ranking-container">
+      <h2>🥇 Ranking Comunitário</h2>
+      <ul class="ranking-list">
+        <li>
+          <span class="posicao">🥇</span>
+          <img src="Imagens/ana.png" alt="Ana Oliveira">
+          <span class="nome">Ana Oliveira</span>
+          <span class="pontos">1280 pontos</span>
+        </li>
+        <li>
+          <span class="posicao">🥈</span>
+          <img src="Imagens/lucas.jpg" alt="">
+          <span class="nome">Lucas Mendes</span>
+          <span class="pontos">1165 pontos</span>
+        </li>
+        <li>
+          <span class="posicao">🥉</span>
+          <img src="Imagens/marienae.jpg" alt="">
+          <span class="nome">Mariana Costa</span>
+          <span class="pontos">1090 pontos</span>
+        </li>
+        <li>
+          <span class="posicao">🌿</span>
+          <img src="Imagens/carlos.jpg" alt="">
+          <span class="nome">Carlos Lima</span>
+          <span class="pontos">975 pontos</span>
+        </li>
+        <li>
+          <span class="posicao">♻</span>
+          <img src="Imagens/beatriz.avif" alt="">
+          <span class="nome">Beatriz Souza</span>
+          <span class="pontos">910 pontos</span>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-left">
+        <img src="Imagens/logoverde.png" alt="Wastech Logo" class="logo" />
+      </div>
+      <nav class="footer-nav">
+        <a href="#">Comunidade</a>
+        <a href="#">Sobre Nós</a>
+        <a href="#">Gamificação</a>
+        <a href="#">Página Inicial</a>
+        <a href="#">Dashboard</a>
+      </nav>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/wastechpsvs/"><img src="Favicon/insta-icon.svg" alt="Instagram" /></a>
+        <a href="#"><img src="Favicon/yt-icon.svg" alt="YouTube" /></a>
+      </div>
+    </div>
+    <hr class="footer-divider" />
+    <div class="footer-bottom">
+      <p class="copyright">© 2025 WastTech. Todos os Direitos Reservados.</p>
+      <div class="footer-links">
+        <a href="#">Políticas de Privacidade</a>
+        <a href="#">Termos de Serviço</a>
+      </div>
+      <img src="Imagens/planta3.svg" alt="Ícone Planta" class="footer-icon" />
+    </div>
+  </footer>
+
+  <div id="successNotification" class="notification">
+    <i class="fas fa-check-circle"></i>
+    <span>Perfil atualizado com sucesso!</span>
+  </div>
+
+<script>
+    // Sistema de Níveis - XP e Progresso
+    const LEVELS = [
+      { level: 1, xpRequired: 0, title: "Iniciante" },
+      { level: 2, xpRequired: 100, title: "Aprendiz Verde" },
+      { level: 3, xpRequired: 300, title: "Jardinheiro" },
+      { level: 4, xpRequired: 600, title: "Cultivador" },
+      { level: 5, xpRequired: 1000, title: "Agricultor" },
+      { level: 6, xpRequired: 1500, title: "Mestre Verde" },
+      { level: 7, xpRequired: 2100, title: "Especialista" },
+      { level: 8, xpRequired: 2800, title: "Mestre Jardineiro" },
+      { level: 9, xpRequired: 3600, title: "Lenda Verde" },
+      { level: 10, xpRequired: 4500, title: "Mestre Supremo" }
+    ];
+
+    // Variáveis do usuário
+    let userXP = 0;
+    let userLevel = 1;
+    let plantsCultivated = 0;
+    let waterSaved = 0;
+    let completedMissions = 0;
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const profile = document.querySelector('.profile');
+      const dropdownMenu = document.querySelector('.dropdown-menu');
+      const dropdownIcon = document.querySelector('.dropdown-icon');
+
+      profile.addEventListener('click', function (e) {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('show');
+        dropdownIcon.classList.toggle('rotate');
+      });
+
+      // Fechar o menu quando clicar em qualquer lugar fora
+      document.addEventListener('click', function () {
+        dropdownMenu.classList.remove('show');
+        dropdownIcon.classList.remove('rotate');
+      });
+
+      // Evitar que o menu feche quando clicar nele
+      dropdownMenu.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const modal = document.getElementById('profileModal');
+      const editBtn = document.getElementById('editProfileBtn');
+      const closeBtn = document.querySelector('.close-btn');
+      const cancelBtn = document.getElementById('cancelEdit');
+      const saveBtn = document.getElementById('saveProfile');
+      const profilePicInput = document.getElementById('profile-pic-input');
+      const profilePicPreview = document.getElementById('profilePicPreview');
+      const profilePic = document.getElementById('profilePic');
+      const profileCircleImg = document.getElementById('headerProfilePic');
+      const userNameInput = document.getElementById('userName');
+      const userLevelText = document.getElementById('userLevel');
+      const headerUserName = document.getElementById('headerUserName');
+
+      // Nome do usuário armazenado
+      let userName = 'Novo Usuário';
+      let selectedFile = null;
+
+      // Inicializar perfil
+      function initializeProfile() {
+        // Carregar dados do sessionStorage
+        const savedXP = sessionStorage.getItem('userXP');
+        const savedLevel = sessionStorage.getItem('userLevel');
+        const savedPlants = sessionStorage.getItem('userPlants');
+        const savedName = sessionStorage.getItem('wastech_userName');
+        const savedPhoto = sessionStorage.getItem('wastech_profilePhoto');
+        const savedMissions = sessionStorage.getItem('completedMissions');
+        const savedWater = sessionStorage.getItem('waterSaved');
+        const savedSavings = sessionStorage.getItem('totalSavings');
+
+        // Configurar valores
+        if (savedXP) userXP = parseInt(savedXP);
+        if (savedLevel) userLevel = parseInt(savedLevel);
+        if (savedPlants) plantsCultivated = JSON.parse(savedPlants).length;
+        if (savedMissions) completedMissions = parseInt(savedMissions);
+        if (savedWater) waterSaved = parseInt(savedWater);
+        if (savedSavings) {
+          document.getElementById('monthGoal').textContent = userLevel * 50;
+        }
+
+        // Atualizar dados do usuário
+        if (savedName) {
+          userName = savedName;
+          userNameInput.value = userName;
+          if (headerUserName) {
+            headerUserName.childNodes[0].textContent = userName;
+          }
+          var perfilTitulo = document.querySelector('.heard2 h1');
+          if (perfilTitulo) {
+            perfilTitulo.textContent = userName;
+          }
+        } else {
+          userNameInput.value = userName;
+          if (headerUserName) {
+            headerUserName.childNodes[0].textContent = userName;
+          }
+          var perfilTitulo = document.querySelector('.heard2 h1');
+          if (perfilTitulo) {
+            perfilTitulo.textContent = userName;
+          }
+        }
+
+        if (savedPhoto) {
+          profilePic.src = savedPhoto;
+          profilePicPreview.src = savedPhoto;
+          if (profileCircleImg) {
+            profileCircleImg.src = savedPhoto;
+          }
+        }
+
+        // Atualizar interface
+        updateUserStats();
+        updateLevelDisplay();
+
+        // Garantir que a conquista "Iniciante Verde" esteja desbloqueada
+        unlockAchievement('iniciante_verde');
+      }
+
+      // Atualizar estatísticas do usuário
+      function updateUserStats() {
+        document.getElementById('userPoints').textContent = userXP;
+        document.getElementById('totalXP').textContent = userXP;
+        document.getElementById('completedMissions').textContent = completedMissions;
+        document.getElementById('activeDays').textContent = Math.max(1, Math.floor(userXP / 10));
+        document.getElementById('plantsCultivated').textContent = plantsCultivated;
+        document.getElementById('waterSaved').textContent = waterSaved;
+        document.getElementById('joinDate').textContent = new Date().toLocaleDateString('pt-BR', { 
+          month: 'short', 
+          year: 'numeric' 
+        });
+        
+        // Configurar metas baseadas no nível
+        const monthGoal = userLevel * 50;
+        document.getElementById('monthGoal').textContent = monthGoal;
+        document.getElementById('monthProgress').max = monthGoal;
+        document.getElementById('monthProgress').value = Math.min(waterSaved, monthGoal);
+      }
+
+      // Atualizar exibição do nível
+      function updateLevelDisplay() {
+        const currentLevel = LEVELS[userLevel - 1];
+        const nextLevel = LEVELS[userLevel] || LEVELS[LEVELS.length - 1];
+        
+        // Calcular progresso para o próximo nível
+        const xpForNextLevel = nextLevel.xpRequired - currentLevel.xpRequired;
+        const xpProgress = userXP - currentLevel.xpRequired;
+        const progressPercentage = Math.min(100, (xpProgress / xpForNextLevel) * 100);
+        
+        // Atualizar elementos da interface
+        userLevelText.textContent = `Nível ${userLevel} – ${currentLevel.title}`;
+        document.getElementById('levelProgressBar').style.width = `${progressPercentage}%`;
+        
+        // Verificar conquistas baseadas no nível
+        checkLevelBasedAchievements();
+      }
+
+      // Verificar conquistas baseadas no nível
+      function checkLevelBasedAchievements() {
+        if (userLevel >= 2) {
+          unlockAchievement('poupador_agua');
+        }
+        if (userLevel >= 3) {
+          unlockAchievement('mestre_reciclagem');
+        }
+        if (userLevel >= 5) {
+          showNotification('Conquista desbloqueada: Agricultor Experiente!', 'success');
+        }
+      }
+
+      // Função para desbloquear conquista
+      function unlockAchievement(achievementId) {
+        if (achievementId === 'iniciante_verde') {
+          const inicianteVerde = document.querySelector('.item-conquista:nth-child(1)');
+          inicianteVerde.classList.remove('locked');
+          inicianteVerde.classList.add('unlocked');
+          
+          const circulo1 = inicianteVerde.querySelector('.circulo1');
+          circulo1.innerHTML = '<i class="fas fa-seedling"></i>';
+        }
+        else if (achievementId === 'poupador_agua') {
+          const poupadorAgua = document.querySelector('.item-conquista:nth-child(2)');
+          poupadorAgua.classList.remove('locked');
+          poupadorAgua.classList.add('unlocked');
+          
+          const circulo2 = poupadorAgua.querySelector('.circulo2');
+          circulo2.innerHTML = '<i class="fas fa-tint"></i>';
+          circulo2.style.backgroundColor = '#4CAF50';
+          circulo2.style.color = 'white';
+          
+          poupadorAgua.querySelector('.descricao').style.color = '#2e7d32';
+          poupadorAgua.querySelector('.descricao').style.fontWeight = '600';
+        }
+        else if (achievementId === 'mestre_reciclagem') {
+          const mestreReciclagem = document.querySelector('.item-conquista:nth-child(3)');
+          mestreReciclagem.classList.remove('locked');
+          mestreReciclagem.classList.add('unlocked');
+          
+          const circulo3 = mestreReciclagem.querySelector('.circulo3');
+          circulo3.innerHTML = '<i class="fas fa-recycle"></i>';
+          circulo3.style.backgroundColor = '#4CAF50';
+          circulo3.style.color = 'white';
+          
+          mestreReciclagem.querySelector('.descricao').style.color = '#2e7d32';
+          mestreReciclagem.querySelector('.descricao').style.fontWeight = '600';
+        }
+      }
+
+      // Função para mostrar notificação
+      function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `
+          <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+          <span>${message}</span>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.classList.add('show');
+        }, 10);
+        
+        setTimeout(() => {
+          notification.classList.remove('show');
+          setTimeout(() => {
+            document.body.removeChild(notification);
+          }, 300);
+        }, 3000);
+      }
+
+      // Abrir modal ao clicar no botão de editar
+      if (editBtn) {
+        editBtn.addEventListener('click', function () {
+          modal.style.display = 'flex';
+          userNameInput.value = userName;
+          profilePicPreview.src = profilePic.src;
+          profilePicInput.value = '';
+          selectedFile = null;
+        });
+      }
+      // Fechar modal ao clicar no botão de fechar ou cancelar
+      if (closeBtn) closeBtn.addEventListener('click', function () { modal.style.display = 'none'; });
+      if (cancelBtn) cancelBtn.addEventListener('click', function () { modal.style.display = 'none'; });
+      window.addEventListener('click', function (event) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+
+      // Atualizar preview da foto ao escolher arquivo
+      profilePicInput.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+
+        if (!file) {
+          selectedFile = null;
+          return;
+        }
+
+        // Validar tipo de arquivo
+        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        if (!validTypes.includes(file.type)) {
+          alert('Por favor, selecione uma imagem no formato JPEG, PNG ou GIF.');
+          profilePicInput.value = '';
+          return;
+        }
+
+        // Validar tamanho do arquivo (máximo 2MB)
+        if (file.size > 2 * 1024 * 1024) {
+          alert('A imagem deve ter no máximo 2MB de tamanho.');
+          profilePicInput.value = '';
+          return;
+        }
+
+        selectedFile = file;
+
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          // Redimensionar a imagem antes de exibir
+          resizeImage(event.target.result, 300, 300, function (resizedImage) {
+            profilePicPreview.src = resizedImage;
+          });
+        };
+        reader.readAsDataURL(file);
+      });
+
+      // Função para redimensionar imagem
+      function resizeImage(dataUrl, maxWidth, maxHeight, callback) {
+        const img = new Image();
+        img.src = dataUrl;
+
+        img.onload = function () {
+          let width = img.width;
+          let height = img.height;
+
+          // Calcular novas dimensões mantendo proporção
+          if (width > height) {
+            if (width > maxWidth) {
+              height *= maxWidth / width;
+              width = maxWidth;
+            }
+          } else {
+            if (height > maxHeight) {
+              width *= maxHeight / height;
+              height = maxHeight;
+            }
+          }
+
+          // Criar canvas para redimensionar
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          callback(canvas.toDataURL('image/jpeg', 0.8)); // 0.8 é a qualidade (80%)
+        };
+      }
+
+      // Salvar perfil (nome e foto)
+      saveBtn.addEventListener('click', function() {
+        const newName = userNameInput.value.trim();
+        if (!newName) {
+          alert('Por favor, insira um nome válido.');
+          return;
+        }
+        userName = newName;
+        sessionStorage.setItem('wastech_userName', userName);
+        if (headerUserName) {
+          headerUserName.childNodes[0].textContent = userName;
+        }
+        var perfilTitulo = document.querySelector('.heard2 h1');
+        if (perfilTitulo) {
+          perfilTitulo.textContent = userName;
+        }
+        // Atualizar foto se alterada
+        if (selectedFile) {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            resizeImage(event.target.result, 150, 150, function(resizedImage) {
+              if (profilePic) profilePic.src = resizedImage;
+              if (profilePicPreview) profilePicPreview.src = resizedImage;
+              if (profileCircleImg) profileCircleImg.src = resizedImage;
+              sessionStorage.setItem('wastech_profilePhoto', resizedImage);
+              showNotification('Perfil atualizado com sucesso!', 'success');
+              closeModal();
+            });
+          };
+          reader.readAsDataURL(selectedFile);
+        } else {
+          showNotification('Perfil atualizado com sucesso!', 'success');
+          closeModal();
+        }
+      });
+
+      // Adicionar função para atualizar foto de perfil no Firebase Storage, Firestore e Auth
+      async function updateProfilePhoto(file, userId) {
+        if (!file || !userId) return '';
+        const storageRef = firebase.storage().ref('profile_photos/' + userId + '.jpg');
+        await storageRef.put(file);
+        return await storageRef.getDownloadURL();
+      }
+
+      // Simular algumas missões completas para demonstração
+      function simulateMissionProgress() {
+        // Simular progresso de regas (0-5)
+        const wateringProgress = Math.min(5, Math.floor(userXP / 20));
+        document.getElementById('wateringProgress').textContent = wateringProgress;
+        
+        // Simular progresso de água economizada (0-10L)
+        const waterProgress = Math.min(10, Math.floor(waterSaved / 10));
+        document.getElementById('waterProgress').textContent = waterProgress;
+        
+        // Atualizar pontuação de missões baseado no XP
+        completedMissions = Math.floor(userXP / 50);
+      }
+
+      // Inicializar o perfil
+      initializeProfile();
+      simulateMissionProgress();
+
+      // Verificar se há notificações pendentes (como level up)
+      checkForPendingNotifications();
+    });
+
+    // Verificar notificações pendentes (como quando o usuário sobe de nível no dashboard)
+    function checkForPendingNotifications() {
+      const lastLevel = sessionStorage.getItem('lastKnownLevel');
+      const currentLevel = sessionStorage.getItem('userLevel');
+      
+      if (currentLevel && lastLevel && parseInt(currentLevel) > parseInt(lastLevel)) {
+        showNotification(`Parabéns! Você alcançou o nível ${currentLevel}!`, 'level-up');
+      }
+      
+      // Salvar nível atual como último conhecido
+      if (currentLevel) {
+        sessionStorage.setItem('lastKnownLevel', currentLevel);
+      }
+    }
+
+    // Função para mostrar notificação de sucesso
+    function showSuccessNotification() {
+      const notification = document.getElementById('successNotification');
+      notification.classList.add('show');
+      
+      // Esconder após 3 segundos
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+</script>
+</body>
+</html>
