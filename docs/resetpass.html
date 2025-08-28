@@ -83,7 +83,7 @@
         // Isso é mais seguro e segue as melhores práticas de não revelar quais e-mails estão cadastrados
         await auth.sendPasswordResetEmail(email);
 
-        showMessage('E-mail de redefinição enviado! Verifique sua caixa de entrada.', true);
+        showMessage('E-mail de redefinição enviado! Verifique sua caixa de entrada (Verifique o SPAM também).', true);
 
         setTimeout(() => {
           window.location.href = 'login.html?from=reset';

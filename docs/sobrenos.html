@@ -21,7 +21,7 @@
     <div class="top-icons">
       <div class="profile-container">
         <div class="profile">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwktGunb0a4j8gZGwCIvKQiq9pf1n8bGA0QkfqzYx0jsz12RU9syffpA2SZ6svdnUovOg&usqp=CAU" alt="Usuário">
+          <img id="headerUserPhoto" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwktGunb0a4j8gZGwCIvKQiq9pf1n8bGA0QkfqzYx0jsz12RU9syffpA2SZ6svdnUovOg&usqp=CAU" alt="Usuário">
           <span>Leonardo <i class="fas fa-chevron-down dropdown-icon"></i></span>
         </div>
         <div class="dropdown-menu">
@@ -260,6 +260,12 @@
     var profileNameSpan = document.querySelector('.profile span');
     if (profileNameSpan) {
       profileNameSpan.innerHTML = userName + ' <i class="fas fa-chevron-down dropdown-icon"></i>';
+    }
+    // Atualiza a foto de perfil do header com a imagem salva no sessionStorage
+    var profilePhoto = sessionStorage.getItem('wastech_profilePhoto');
+    var headerUserPhoto = document.getElementById('headerUserPhoto');
+    if (profilePhoto && headerUserPhoto) {
+      headerUserPhoto.src = profilePhoto;
     }
   });
 </script>

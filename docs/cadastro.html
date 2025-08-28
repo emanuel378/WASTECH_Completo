@@ -57,16 +57,11 @@
               <i class="fas fa-map-marker-alt"></i>
               <input type="text" id="location" placeholder="Cidade, Estado" required>
             </div>
-            <div class="input-group">
-              <label for="profilePhoto">Foto de Perfil</label>
-              <i class="fas fa-camera"></i>
-              <input type="file" id="profilePhoto" accept="image/*">
-            </div>
           </div>
           <div class="options">
             <div class="terms">
               <input type="checkbox" id="terms" required>
-              <label for="terms">Concordo com os <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a></label>
+              <label for="terms">Concordo com os <a id="termsLink">Termos de Uso</a> e <a id="privacyLink">Política de Privacidade</a></label>
             </div>
           </div>
           <button type="submit" class="register-button">Criar Conta</button>
@@ -81,144 +76,334 @@
     &copy; 2025 WASTECH - Todos os direitos reservados
   </footer>
 
+  <!-- Modal para Termos de Uso -->
+  <div id="termsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Termos de Uso</h2>
+        <button class="close-button">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>1. Aceitação dos Termos</h3>
+        <p>Ao acessar e usar o Wastech, você concorda em cumprir e ser regido por estes Termos de Uso.</p>
+        
+        <h3>2. Serviços Prestados</h3>
+        <p>O Wastech fornece uma plataforma para gerenciamento de resíduos, conectando geradores, transportadores e destinadores de resíduos.</p>
+        
+        <h3>3. Cadastro do Usuário</h3>
+        <p>Para utilizar nossos serviços, você precisa criar uma conta fornecendo informações precisas e completas.</p>
+        
+        <h3>4. Responsabilidades do Usuário</h3>
+        <p>Você é responsável por:</p>
+        <ul>
+          <li>Manter a confidencialidade de sua conta e senha</li>
+          <li>Fornecer informações verdadeiras e atualizadas</li>
+          <li>Utilizar a plataforma apenas para fins legais</li>
+          <li>Não praticar atividades fraudulentas ou ilegais</li>
+        </ul>
+        
+        <h3>5. Propriedade Intelectual</h3>
+        <p>Todo o conteúdo da plataforma Wastech, incluindo logos, designs e software, é propriedade da Wastech ou de seus licenciadores.</p>
+        
+        <h3>6. Limitação de Responsabilidade</h3>
+        <p>A Wastech não se responsabiliza por danos diretos, indiretos, incidentais ou consequenciais resultantes do uso ou incapacidade de uso de nossos serviços.</p>
+        
+        <h3>7. Modificação dos Termos</h3>
+        <p>Podemos modificar estes Termos a qualquer momento. Alterações significativas serão notificadas por e-mail ou através de nossa plataforma.</p>
+        
+        <h3>8. Lei Aplicável</h3>
+        <p>Estes Termos são regidos pelas leis do Brasil e qualquer disputa será resolvida nos tribunais brasileiros.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para Política de Privacidade -->
+  <div id="privacyModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Política de Privacidade</h2>
+        <button class="close-button">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>1. Informações que Coletamos</h3>
+        <p>Coletamos informações que você nos fornece diretamente, incluindo:</p>
+        <ul>
+          <li>Nome completo e informações de contato</li>
+          <li>Informações de perfil e preferências</li>
+          <li>Dados de localização</li>
+          <li>Informações de transações</li>
+        </ul>
+        
+        <h3>2. Como Usamos Suas Informações</h3>
+        <p>Utilizamos suas informações para:</p>
+        <ul>
+          <li>Fornecer, manter e melhorar nossos serviços</li>
+          <li>Personalizar sua experiência</li>
+          <li>Comunicar-nos com você sobre produtos, serviços e promoções</li>
+          <li>Garantir a segurança de nossa plataforma</li>
+        </ul>
+        
+        <h3>3. Compartilhamento de Informações</h3>
+        <p>Não vendemos suas informações pessoais. Podemos compartilhar informações com:</p>
+        <ul>
+          <li>Prestadores de serviços que nos auxiliam em nossas operações</li>
+          <li>Autoridades legais quando exigido por lei</li>
+          <li>Empresas afiliadas para oferecer serviços integrados</li>
+        </ul>
+        
+        <h3>4. Segurança de Dados</h3>
+        <p>Implementamos medidas de segurança técnicas e organizacionais para proteger suas informações contra acesso não autorizado e uso indevido.</p>
+        
+        <h3>5. Seus Direitos</h3>
+        <p>Você tem o direito de:</p>
+        <ul>
+          <li>Acessar e corrigir suas informações pessoais</li>
+          <li>Solicitar a exclusão de seus dados</li>
+          <li>Optar por não receber comunicações de marketing</li>
+          <li>Retirar seu consentimento para o processamento de dados</li>
+        </ul>
+        
+        <h3>6. Retenção de Dados</h3>
+        <p>Manteremos suas informações pessoais apenas pelo tempo necessário para cumprir as finalidades descritas nesta política.</p>
+        
+        <h3>7. Alterações na Política</h3>
+        <p>Podemos atualizar esta política periodicamente. Notificaremos você sobre alterações significativas por e-mail ou através de nossa plataforma.</p>
+        
+        <h3>8. Contato</h3>
+        <p>Se você tiver dúvidas sobre esta política, entre em contato conosco pelo e-mail: privacidade@wastech.com.br</p>
+      </div>
+    </div>
+  </div>
+
 <script>
-  // Configuração do Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyCp2xHQUeMipoA44g_QyZ71dnaRHnpGJtQ",
-    authDomain: "wastech-8d384.firebaseapp.com",
-    projectId: "wastech-8d384",
-    storageBucket: "wastech-8d384.appspot.com",
-    messagingSenderId: "957838233480",
-    appId: "1:957838233480:web:576ae21101e425ed0d343d",
-    measurementId: "G-9N582ETX68"
-  };
+// Configuração do Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyCp2xHQUeMipoA44g_QyZ71dnaRHnpGJtQ",
+  authDomain: "wastech-8d384.firebaseapp.com",
+  projectId: "wastech-8d384",
+  storageBucket: "wastech-8d384.appspot.com",
+  messagingSenderId: "957838233480",
+  appId: "1:957838233480:web:576ae21101e425ed0d343d",
+  measurementId: "G-9N582ETX68"
+};
 
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// Mostrar mensagens na tela
+function showMessage(message, isSuccess = false) {
+  // Remove alertas anteriores
+  const existingAlerts = document.querySelectorAll('.alert');
+  existingAlerts.forEach(alert => alert.remove());
+  
+  const alertBox = document.createElement('div');
+  alertBox.className = isSuccess ? 'alert success' : 'alert error';
+  alertBox.textContent = message;
+  document.querySelector('.form-container').prepend(alertBox);
+  setTimeout(() => alertBox.remove(), 5000);
+}
+
+// Validações de credenciais
+function validateCredentials(fullname, email, password, confirmPassword, location) {
+  // Validação do nome completo
+  const nameRegex = /^[A-Za-zÀ-ÿ]+([ ][A-Za-zÀ-ÿ]+)+$/;
+  if (!fullname || fullname.trim().length < 5) {
+    return { isValid: false, message: 'Nome completo deve ter pelo menos 5 caracteres' };
   }
-  const auth = firebase.auth();
-  const db = firebase.firestore();
+  
+  if (fullname.length > 100) {
+    return { isValid: false, message: 'Nome completo não pode exceder 100 caracteres' };
+  }
+  
+  // Validação de e-mail
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return { isValid: false, message: 'Por favor, insira um e-mail válido' };
+  }
+  
+  if (email.length > 254) {
+    return { isValid: false, message: 'E-mail não pode exceder 254 caracteres' };
+  }
+  
+  // Validação de senha
+  if (password.length < 8) {
+    return { isValid: false, message: 'A senha deve ter pelo menos 8 caracteres' };
+  }
+  
+  if (password.length > 128) {
+    return { isValid: false, message: 'Senha não pode exceder 128 caracteres' };
+  }
+  
+  if (!/(?=.*[a-z])/.test(password)) {
+    return { isValid: false, message: 'Senha deve conter pelo menos uma letra minúscula' };
+  }
+  
+  if (!/(?=.*[A-Z])/.test(password)) {
+    return { isValid: false, message: 'Senha deve conter pelo menos uma letra maiúscula' };
+  }
+  
+  if (!/(?=.*\d)/.test(password)) {
+    return { isValid: false, message: 'Senha deve conter pelo menos um número' };
+  }
+  
+  
+  if (password !== confirmPassword) {
+    return { isValid: false, message: 'As senhas não coincidem' };
+  }
+  
+  return { isValid: true, message: '' };
+}
 
-  // Mostrar mensagens na tela
-  function showMessage(message, isSuccess = false) {
-    // Remove alertas anteriores
-    const existingAlerts = document.querySelectorAll('.alert');
-    existingAlerts.forEach(alert => alert.remove());
+// Cadastro - Função simplificada sem upload de imagem
+async function registerUser(email, password, userData) {
+  try {
+    // 1. Primeiro cria o usuário no Authentication
+    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+    const user = userCredential.user;
     
-    const alertBox = document.createElement('div');
-    alertBox.className = isSuccess ? 'alert success' : 'alert error';
-    alertBox.textContent = message;
-    document.querySelector('.form-container').prepend(alertBox);
-    setTimeout(() => alertBox.remove(), 5000);
-  }
-
-  // Cadastro - Função corrigida
-  async function registerUser(email, password, userData) {
-    try {
-      // 1. Primeiro cria o usuário no Authentication
-      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-      const user = userCredential.user;
-      let photoURL = '';
-      // 2. Upload da foto de perfil se selecionada
-      const photoInput = document.getElementById('profilePhoto');
-      if (photoInput && photoInput.files && photoInput.files[0]) {
-        const file = photoInput.files[0];
-        const storageRef = firebase.storage().ref('profile_photos/' + user.uid + '.jpg');
-        await storageRef.put(file);
-        photoURL = await storageRef.getDownloadURL();
+    // 2. Salva dados no Firestore
+    await db.collection('usuarios').doc(user.uid).set({
+      ...userData,
+      uid: user.uid,
+      emailVerified: false,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      photoURL: '' // URL vazia para foto de perfil
+    });
+    
+    // 3. Envia email de verificação
+    await user.sendEmailVerification();
+  } catch (error) {
+    console.error("Erro no cadastro:", error);
+    
+    // Se falhou depois de criar o usuário no Auth, tenta limpar
+    if (auth.currentUser) {
+      try {
+        await auth.currentUser.delete();
+        console.log("Usuário removido do Auth devido ao erro");
+      } catch (deleteError) {
+        console.error("Erro ao remover usuário:", deleteError);
       }
-      // 3. Salva dados no Firestore
-      await db.collection('usuarios').doc(user.uid).set({
-        ...userData,
-        uid: user.uid,
-        emailVerified: false,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        photoURL: photoURL
-      });
-      // 4. Atualiza foto no Auth
-      if (photoURL) {
-        await user.updateProfile({ photoURL });
-      }
-      await user.sendEmailVerification();
-    } catch (error) {
-      console.error("Erro no cadastro:", error);
-      
-      // Se falhou depois de criar o usuário no Auth, tenta limpar
-      if (auth.currentUser) {
-        try {
-          await auth.currentUser.delete();
-          console.log("Usuário removido do Auth devido ao erro");
-        } catch (deleteError) {
-          console.error("Erro ao remover usuário:", deleteError);
-        }
-      }
-      
-      throw error;
     }
+    
+    throw error;
+  }
+}
+
+// Evento de submit
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirm-password').value;
+  const fullname = document.getElementById('fullname').value.trim();
+  const location = document.getElementById('location').value.trim();
+  const terms = document.getElementById('terms').checked;
+
+  // Validação dos termos
+  if (!terms) {
+    return showMessage('Você deve aceitar os termos de uso');
   }
 
-  // Adicionar função para atualizar foto de perfil no Firebase Storage, Firestore e Auth
-  async function updateProfilePhoto(file, userId) {
-    if (!file || !userId) return '';
-    const storageRef = firebase.storage().ref('profile_photos/' + userId + '.jpg');
-    await storageRef.put(file);
-    return await storageRef.getDownloadURL();
+  // Validação das credenciais
+  const validation = validateCredentials(fullname, email, password, confirmPassword, location);
+  if (!validation.isValid) {
+    return showMessage(validation.message);
   }
 
-  // Evento de submit
-  document.getElementById('registerForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
+  try {
+    await registerUser(email, password, {
+      nome: fullname,
+      email: email,
+      localizacao: location
+    });
 
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirm-password').value;
-    const fullname = document.getElementById('fullname').value.trim();
-    const location = document.getElementById('location').value.trim();
-    const terms = document.getElementById('terms').checked;
+    showMessage('Cadastro realizado com sucesso!', true);
+    setTimeout(() => window.location.href = 'login.html', 3000);
 
-    // Validações
-    if (!terms) return showMessage('Você deve aceitar os termos de uso');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showMessage('Por favor, insira um e-mail válido');
-    if (password !== confirmPassword) return showMessage('As senhas não coincidem');
-    if (password.length < 6) return showMessage('A senha deve ter pelo menos 6 caracteres');
+  } catch (error) {
+    console.error("Erro completo:", error);
 
-    try {
-      await registerUser(email, password, {
-        nome: fullname,
-        email: email,
-        localizacao: location
-      });
+    const errorMessages = {
+      'auth/email-already-in-use': 'Este e-mail já está em uso',
+      'auth/invalid-email': 'E-mail inválido',
+      'auth/weak-password': 'Senha muito fraca. Use pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais',
+      'permission-denied': 'Erro de permissão. Contate o suporte.'
+    };
 
-      showMessage('Cadastro realizado com sucesso!', true);
-      setTimeout(() => window.location.href = 'login.html', 3000);
+    showMessage(errorMessages[error.code] || 'Erro ao cadastrar usuário');
+  }
+});
 
-    } catch (error) {
-      console.error("Erro completo:", error);
+// Função para mostrar/ocultar senha
+function togglePassword(inputId, iconId) {
+  const passwordInput = document.getElementById(inputId);
+  const eyeIcon = document.getElementById(iconId);
+  
+  if (passwordInput.type === 'password') {
+    passwordInput.type = 'text';
+    eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
+  } else {
+    passwordInput.type = 'password';
+    eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
+  }
+}
 
-      const errorMessages = {
-        'auth/email-already-in-use': 'Este e-mail já está em uso',
-        'auth/invalid-email': 'E-mail inválido',
-        'auth/weak-password': 'Senha muito fraca',
-        'permission-denied': 'Erro de permissão. Contate o suporte.'
-      };
+// Modal functionality
+const termsModal = document.getElementById('termsModal');
+const privacyModal = document.getElementById('privacyModal');
+const termsLink = document.getElementById('termsLink');
+const privacyLink = document.getElementById('privacyLink');
+const closeButtons = document.querySelectorAll('.close-button');
 
-      showMessage(errorMessages[error.code] || 'Erro ao cadastrar usuário');
-    }
+termsLink.addEventListener('click', () => {
+  termsModal.style.display = 'flex';
+});
+
+privacyLink.addEventListener('click', () => {
+  privacyModal.style.display = 'flex';
+});
+
+closeButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    termsModal.style.display = 'none';
+    privacyModal.style.display = 'none';
   });
+});
 
-  // Função corrigida para mostrar/ocultar senha
-  function togglePassword(inputId, iconId) {
-    const passwordInput = document.getElementById(inputId);
-    const eyeIcon = document.getElementById(iconId);
-    
-    if (passwordInput.type === 'password') {
-      passwordInput.type = 'text';
-      eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
-    } else {
-      passwordInput.type = 'password';
-      eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
-    }
+window.addEventListener('click', (e) => {
+  if (e.target === termsModal) {
+    termsModal.style.display = 'none';
   }
+  if (e.target === privacyModal) {
+    privacyModal.style.display = 'none';
+  }
+});
+
+// Validação em tempo real
+document.getElementById('fullname').addEventListener('blur', function() {
+  const name = this.value.trim();
+  if (name && name.length < 5) {
+    showMessage('Nome completo deve ter pelo menos 5 caracteres');
+  }
+});
+
+document.getElementById('password').addEventListener('blur', function() {
+  const password = this.value;
+  if (password && password.length < 8) {
+    showMessage('Senha deve ter pelo menos 8 caracteres');
+  }
+});
+
+document.getElementById('location').addEventListener('blur', function() {
+  const location = this.value.trim();
+  if (location && location.length < 3) {
+    showMessage('Localização deve ter pelo menos 3 caracteres');
+  }
+});
 </script>
 
 </body>

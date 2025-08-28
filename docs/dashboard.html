@@ -488,7 +488,7 @@
                             Nv. <span id="headerLevelNumber">1</span>
                         </span>
 
-                        <i class="fas fa-chevron-down dropdown-icon"></i>
+                        <i class="fas fa-chevron-down dropdown-icon" ></i>
                     </div>
 
                     <div class="dropdown-menu">
@@ -516,7 +516,7 @@
     <div class="content-wrapper">
         <section class="welcome-banner">
             <div class="welcome-text">
-                <h2>Bom dia, <span id="headerUserName_clone">Usuário</span>!</h2>
+                <h2>Seja bem-vindo, <span id="headerUserName_clone">Usuário</span>!</h2>
                 <p>Veja como está sua horta hoje</p>
             </div>
             <div class="quick-stats">
@@ -1529,6 +1529,17 @@ async function updateProfilePhoto(file, userId) {
 //     // ...atualiza elementos da interface...
 //   });
 // }
+</script>
+
+<script>
+    // Atualiza a foto de perfil do header com a imagem salva no sessionStorage
+    document.addEventListener('DOMContentLoaded', function() {
+        var profilePhoto = sessionStorage.getItem('wastech_profilePhoto');
+        if (profilePhoto) {
+            var headerUserPhoto = document.getElementById('headerUserPhoto');
+            if (headerUserPhoto) headerUserPhoto.src = profilePhoto;
+        }
+    });
 </script>
 
 <style>
